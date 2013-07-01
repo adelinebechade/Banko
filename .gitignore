@@ -16,3 +16,5 @@ UPGRADE-2.2.md
 UPGRADE.md
 composer.lock
 deps.lock
+/nbproject/private/
+/nbproject/
