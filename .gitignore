@@ -11,3 +11,8 @@ web/bundles/*
 # Configuration files
 app/config/parameters.ini
 app/config/parameters.yml
+LICENSE
+UPGRADE-2.2.md
+UPGRADE.md
+composer.lock
+deps.lock
