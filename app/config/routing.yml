@@ -1,0 +1,4 @@
+banko_compte:
+    resource: "@BankoCompteBundle/Resources/config/routing.yml"
+    prefix:   /
+
