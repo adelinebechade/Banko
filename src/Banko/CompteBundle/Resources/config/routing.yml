@@ -1,6 +1,0 @@
-#banko_compte_homepage:
-#    pattern:  /hello/{name}
-#    defaults: { _controller: BankoCompteBundle:Default:index }
-banko_compte_homepage:
-    pattern:  /compte
-    defaults: { _controller: BankoCompteBundle:Compte:index }
