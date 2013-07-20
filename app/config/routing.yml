@@ -1,3 +1,8 @@
+bundle_compte:
+    resource: "@BundleCompteBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
 banko_compte:
     resource: "@BankoCompteBundle/Resources/config/routing.yml"
     prefix:   /
