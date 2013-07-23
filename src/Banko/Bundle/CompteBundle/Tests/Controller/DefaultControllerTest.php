@@ -1,6 +1,6 @@
 <?php
 
-namespace Bundle\CompteBundle\Tests\Controller;
+namespace Banko\Bundle\CompteBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 

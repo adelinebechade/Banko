@@ -6,11 +6,11 @@
 
     <!--
     <parameters>
-        <parameter key="bundle_compte.example.class">Bundle\CompteBundle\Example</parameter>
+        <parameter key="banko_compte.example.class">Banko\Bundle\CompteBundle\Example</parameter>
     </parameters>
 
     <services>
-        <service id="bundle_compte.example" class="%bundle_compte.example.class%">
+        <service id="banko_compte.example" class="%banko_compte.example.class%">
             <argument type="service" id="service_id" />
             <argument>plain_value</argument>
             <argument>%parameter_name%</argument>
