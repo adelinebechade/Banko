@@ -1,0 +1,18 @@
+{# src/Banko/CompteBundle/Resources/views/layout.html.twig #}
+ 
+{% extends "::layout.html.twig" %}
+ 
+{% block title %}
+  Gestion des comptes - {{ parent() }}
+{% endblock %}
+ 
+{% block body %}
+ 
+  {# On définit un sous-titre commun à toutes les pages du bundle, par exemple #}
+  <hr>
+ 
+  {# On définit un nouveau bloc, que les vues du bundle pourront remplir #}
+  {% block banko_body %}
+  {% endblock %}
+ 
+{% endblock %}

@@ -1,0 +1,26 @@
+{# src/Banko/CompteBundle/Resources/views/Compte/voir.html.twig #}
+ 
+{% extends "BankoCompteBundle::layout.html.twig" %}
+ 
+{% block title %}
+    Lecture d'un compte - {{ parent() }}
+{% endblock %}
+ 
+{% block banko_body %}
+ 
+  <h2> 
+    {{ compte.nom }}
+  </h2>
+ 
+  <div class="well">
+    {{ compte.soldeInitial }}
+  </div>
+
+  <p>
+    <a href="{{ path('banko_home') }}" class="btn">
+      <i class="icon-chevron-left"></i>
+      <button class="btn" type="button">Retour à la liste</button>
+    </a>
+  </p>
+ 
+{% endblock %}
