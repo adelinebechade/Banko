@@ -8,14 +8,23 @@
  
   <h2><a href="{{ path('banko_home') }}">Liste des comptes</a></li></h2>
  
-  <ul>
+  <table class="table table-hover table-bordered table-condensed">
+    <thead>
+        <tr>
+            <th>Nom</th>
+            <th>Solde Courant</th>
+            <th>Solde Prévisionnel</th>
+        </tr>
+    </thead>
     {% for compte in liste_comptes %}
-      <li>
-        <a href="{{ path('banko_voir', {'id': compte.id}) }}">{{ compte.nom }}</a>
-      </li>
+      <tr>
+        <td><a href="{{ path('banko_voir', {'id': compte.id}) }}">{{ compte.nom }}</a></td>
+        <td><a href="{{ path('banko_voir', {'id': compte.id}) }}">{{ compte.soldeInitial }}</a></td>
+        <td><a href="{{ path('banko_voir', {'id': compte.id}) }}">{{ compte.soldeInitial }}</a></td>
+      </tr>
     {% else %}
-      <li>Pas (encore !) de compte</li>
+      <tr>Pas (encore !) de compte</tr>
     {% endfor %}
-  </ul>
+  </table>
  
 {% endblock %}
