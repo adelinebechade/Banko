@@ -16,6 +16,14 @@
     {{ compte.soldeInitial }}
   </div>
 
+  Les mouvements de ce compte :
+  <div class="well">
+    <ul>
+      {% for mouvement in liste_mouvements %}
+        <li>{{ mouvement.traite }}, {{ mouvement.libelle }}, {{ mouvement.date }}, {{ mouvement.credit }}, {{ mouvement.debit }}</li>
+      {% endfor %}
+    </ul>
+  </div>
   <p>
     <a href="{{ path('banko_home') }}" class="btn">
       <i class="icon-chevron-left"></i>Retour à la liste

@@ -43,10 +43,13 @@ class CompteController extends Controller
           throw $this->createNotFoundException('Compte [id='.$id.'] inexistant.');
       }
 
+      // On récupère la liste des mouvements
+      $liste_mouvements = $em->getRepository('BankoCompteBundle:Mouvement')->findAll();
 
       // Puis modifiez la ligne du render comme ceci, pour prendre en compte l'article :
       return $this->render('BankoCompteBundle:Compte:voir.html.twig', array(
-        'compte' => $compte
+        'compte' => $compte,
+        'liste_mouvements' => $liste_mouvements,
       ));
     }
 }

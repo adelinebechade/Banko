@@ -12,6 +12,13 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Mouvement
 {
+    
+    /**
+     * @ORM\ManyToOne(targetEntity="Banko\Bundle\CompteBundle\Entity\Compte")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $compte;
+
     /**
      * @var integer
      *
@@ -180,5 +187,28 @@ class Mouvement
     public function getDebit()
     {
         return $this->debit;
+    }
+
+    /**
+     * Set compte
+     *
+     * @param \Banko\Bundle\CompteBundle\Entity\Compte $compte
+     * @return Mouvement
+     */
+    public function setCompte(\Banko\Bundle\CompteBundle\Entity\Compte $compte)
+    {
+        $this->compte = $compte;
+    
+        return $this;
+    }
+
+    /**
+     * Get compte
+     *
+     * @return \Banko\Bundle\CompteBundle\Entity\Compte 
+     */
+    public function getCompte()
+    {
+        return $this->compte;
     }
 }
