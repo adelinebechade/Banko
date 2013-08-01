@@ -11,9 +11,9 @@
             "type": "package",
             "package": {
                 "name": "jquery/jquery",
-                "version": "1.9.1",
+                "version": "2.0.3",
                 "dist": {
-                    "url": "http://code.jquery.com/jquery-1.9.1.js",
+                    "url": "http://code.jquery.com/jquery-2.0.3.js",
                     "type": "file"
                 }
             }
@@ -34,7 +34,7 @@
         "incenteev/composer-parameter-handler": "~2.0",
         "braincrafted/bootstrap-bundle": "dev-master",
         "twitter/bootstrap": "2.3.*",
-        "jquery/jquery": "1.9.*",
+        "jquery/jquery": "2.0.*",
         "doctrine/doctrine-fixtures-bundle": "dev-master",
         "doctrine/data-fixtures": "@dev"
     },
