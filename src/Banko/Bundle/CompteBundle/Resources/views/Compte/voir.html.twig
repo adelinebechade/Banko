@@ -1,29 +1,58 @@
 {# src/Banko/CompteBundle/Resources/views/Compte/voir.html.twig #}
  
 {% extends "BankoCompteBundle::layout.html.twig" %}
- 
+
 {% block title %}
     Lecture d'un compte - {{ parent() }}
 {% endblock %}
  
 {% block banko_body %}
- 
+
   <h2> 
     {{ compte.nom }}
-  </h2>
- 
-  <div class="well">
-    {{ compte.soldeInitial }}
-  </div>
+  </h2> 
 
-  Les mouvements de ce compte :
-  <div class="well">
-    <ul>
-      {% for mouvement in liste_mouvements %}
-        <li>{{ mouvement.traite }}, {{ mouvement.libelle }}, {{ mouvement.date }}, {{ mouvement.credit }}, {{ mouvement.debit }}</li>
-      {% endfor %}
-    </ul>
-  </div>
+  <table class="table table-hover table-bordered table-condensed">
+    <thead>
+        <tr>
+	    <th>TRAITE</th>
+            <th>LIBELLE</th>
+	    <th>DATE</th>
+	    <th>CREDIT</th>
+	    <th>DEBIT</th>
+        </tr>
+    </thead>
+    {% for mouvement in liste_mouvements %}
+ 
+    <script type="text/javascript">
+        $.fn.editable.defaults.mode = 'inline';
+        $(document).ready(function() {
+            $('#libelle').editable({
+              inputclass: 'input inputlibelle',
+              success: function() {
+                var libelle = $('.inputlibelle').val();
+                $.ajax({
+                    type: "POST",
+                    url: '{{ path('mouvement_update2' , { 'id': mouvement.id }) }}', // ICI
+                    data: { libelle: libelle },
+                });     
+              }   
+            });
+        });
+    </script>
+ 
+      <tr>
+        <td><input type="checkbox" {% if mouvement.traite is defined %} value="{{ mouvement.traite }}"{% endif %}{% if mouvement.traite == 1 %} checked="checked"{% endif %} /></td>
+        <td><a href="#" id="libelle">{{ mouvement.libelle }}</a></td>
+        <td>{% if mouvement.date %}{{ mouvement.date|date('d/m/Y') }}{% endif %}</td>
+        <td>{{ mouvement.credit }}</td>
+        <td>{{ mouvement.debit }}</td>
+      </tr>
+    {% else %}
+      <tr>Pas (encore !) de mouvement</tr>
+    {% endfor %}
+  </table>
+  
   <p>
     <a href="{{ path('banko_home') }}" class="btn">
       <i class="icon-chevron-left"></i>Retour à la liste

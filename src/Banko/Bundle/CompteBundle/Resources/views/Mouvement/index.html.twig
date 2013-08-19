@@ -1,0 +1,49 @@
+{% extends "BankoCompteBundle::layout.html.twig" %}
+
+{% block body -%}
+    <h1>Mouvement list</h1>
+
+    <table class="records_list">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Traite</th>
+                <th>Libelle</th>
+                <th>Date</th>
+                <th>Credit</th>
+                <th>Debit</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entity in entities %}
+            <tr>
+                <td><a href="{{ path('mouvement_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+                <td>{{ entity.traite }}</td>
+                <td>{{ entity.libelle }}</td>
+                <td>{% if entity.date %}{{ entity.date|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{{ entity.credit }}</td>
+                <td>{{ entity.debit }}</td>
+                <td>
+                <ul>
+                    <li>
+                        <a href="{{ path('mouvement_show', { 'id': entity.id }) }}">show</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('mouvement_edit', { 'id': entity.id }) }}">edit</a>
+                    </li>
+                </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+        <ul>
+        <li>
+            <a href="{{ path('mouvement_new') }}">
+                Create a new entry
+            </a>
+        </li>
+    </ul>
+    {% endblock %}
