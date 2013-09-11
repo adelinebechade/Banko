@@ -222,7 +222,22 @@ class MouvementController extends Controller
         if (!$entity)
             throw $this->createNotFoundException('Unable to find Mouvement entity.');
         
-        $entity->setLibelle($request->get('libelle'));
+        if ($request->get('traite') == '1')
+            $entity->setTraite('1');
+        else
+            $entity->setTraite('0');
+
+        if ($request->get('libelle') != null)
+            $entity->setLibelle($request->get('libelle'));
+        
+        if ($request->get('date') != null)
+            $entity->setDate(new \DateTime($request->get('date')));
+        
+        if ($request->get('credit') != null)
+            $entity->setCredit($request->get('credit'));
+        
+        if ($request->get('debit') != null)
+            $entity->setDebit($request->get('debit'));
 
         $em->persist($entity);
         $em->flush();

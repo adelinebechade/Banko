@@ -12,7 +12,7 @@
     {{ compte.nom }}
   </h2> 
 
-  <table class="table table-hover table-bordered table-condensed">
+  <table id="mouvements" class="table table-bordered table-condensed">
     <thead>
         <tr>
 	    <th>TRAITE</th>
@@ -26,15 +26,72 @@
  
     <script type="text/javascript">
         $.fn.editable.defaults.mode = 'inline';
-        $(document).ready(function() {
-            $('#libelle').editable({
-              inputclass: 'input inputlibelle',
+        $(document).ready(function(data) {
+            $('#mouvements #traite{{ mouvement.id }}').editable({
+              type: 'select',
+              source: [{value: 1, text: 'Oui'}, {value: 2, text: 'Non'}],
+              value: [1, 2],
+              inputclass: 'input editable editable-click editable-empty checkboxtraite',
+              success: function() {
+                var traite = $('.checkboxtraite').val();
+                $.ajax({
+                    type: "POST",
+                    url: '{{ path('mouvement_update2' , { 'id': mouvement.id }) }}',
+                    data: { traite: traite },
+                });     
+              }   
+            });
+
+            $('#mouvements #libelle{{ mouvement.id }}').editable({
+              inputclass: 'input input-small inputlibelle',
               success: function() {
                 var libelle = $('.inputlibelle').val();
                 $.ajax({
                     type: "POST",
-                    url: '{{ path('mouvement_update2' , { 'id': mouvement.id }) }}', // ICI
+                    url: '{{ path('mouvement_update2' , { 'id': mouvement.id }) }}',
                     data: { libelle: libelle },
+                });     
+              }   
+            });
+ 
+            $('#mouvements #date{{ mouvement.id }}').editable({
+              inputclass: 'input input-small inputdate editable editable-click',
+              type: 'date',
+              format: 'yyyy-mm-dd',
+              viewformat: 'dd.mm.yyyy',
+              datepicker: {
+                weekStart: 1
+              },
+              success: function() {
+                var date = $('.inputdate').val();
+                $.ajax({
+                    type: "POST",
+                    url: '{{ path('mouvement_update2' , { 'id': mouvement.id }) }}',
+                    data: { date: date },
+                });     
+              }   
+            });
+            
+            $('#mouvements #credit{{ mouvement.id }}').editable({
+              inputclass: 'input input-small inputcredit',
+              success: function() {
+                var credit = $('.inputcredit').val();
+                $.ajax({
+                    type: "POST",
+                    url: '{{ path('mouvement_update2' , { 'id': mouvement.id }) }}',
+                    data: { credit: credit },
+                });     
+              }   
+            });
+            
+            $('#mouvements #debit{{ mouvement.id }}').editable({
+              inputclass: 'input input-small inputdebit',
+              success: function() {
+                var debit = $('.inputdebit').val();
+                $.ajax({
+                    type: "POST",
+                    url: '{{ path('mouvement_update2' , { 'id': mouvement.id }) }}',
+                    data: { debit: debit },
                 });     
               }   
             });
@@ -42,11 +99,11 @@
     </script>
  
       <tr>
-        <td><input type="checkbox" {% if mouvement.traite is defined %} value="{{ mouvement.traite }}"{% endif %}{% if mouvement.traite == 1 %} checked="checked"{% endif %} /></td>
-        <td><a href="#" id="libelle">{{ mouvement.libelle }}</a></td>
-        <td>{% if mouvement.date %}{{ mouvement.date|date('d/m/Y') }}{% endif %}</td>
-        <td>{{ mouvement.credit }}</td>
-        <td>{{ mouvement.debit }}</td>
+        <td><a href="#" id="traite{{ mouvement.id }}">{% if mouvement.traite == 1 %}Oui{% else %}Non{% endif %} </a></td>
+        <td><a href="#" id="libelle{{ mouvement.id }}">{{ mouvement.libelle }}</a></td>
+        <td><a href="#" id="date{{ mouvement.id }}">{{ mouvement.date|date('d.m.Y') }}</a></td>
+        <td><a href="#" id="credit{{ mouvement.id }}">{{ mouvement.credit }}</a></td>
+        <td><a href="#" id="debit{{ mouvement.id }}">{{ mouvement.debit }}</a></td>
       </tr>
     {% else %}
       <tr>Pas (encore !) de mouvement</tr>
