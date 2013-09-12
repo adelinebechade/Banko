@@ -1,5 +1,10 @@
 {% extends "BankoCompteBundle::layout.html.twig" %}
 
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('bundles/bankocompte/js/mouvement.js') }}"></script>
+{% endblock %}
+
 {% block body -%}
     <h1>Mouvement creation</h1>
 

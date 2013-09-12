@@ -13,7 +13,7 @@ class MouvementType extends AbstractType
         $builder
             ->add('traite', 'checkbox', array('required' => false))
             ->add('libelle')
-            ->add('date')
+            ->add('date', 'text', array('attr' => array('class' => 'form_date')))
             ->add('credit')
             ->add('debit')
             ->add('compte','entity', array(
