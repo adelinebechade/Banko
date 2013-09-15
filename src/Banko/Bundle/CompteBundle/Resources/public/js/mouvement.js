@@ -1,5 +1,5 @@
 $(document).ready(function(){
-    $(".form_date").datetimepicker({
+    $(".form_date").datepicker({
         format: "dd/mm/yyyy",
         autoclose: 'true',
         language: 'fr',

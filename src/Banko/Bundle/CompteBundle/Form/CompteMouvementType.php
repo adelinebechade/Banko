@@ -6,17 +6,16 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class MouvementType extends AbstractType
+class CompteMouvementType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder
-            ->add('traite', 'checkbox', array('required' => false))
-            ->add('libelle')
-            ->add('date', 'text', array('data' => date("d/m/Y"), 'attr' => array('class' => 'form_date')))
-            ->add('credit', 'text', array('data' => '0'))
-            ->add('debit', 'text', array('data' => '0'))
-        ;
+        $builder->add('mouvements', 'collection', array('type' => new MouvementType(), 
+                                                        'allow_add' => true,
+                                                        'allow_delete' => true,
+                                                        'prototype' => true,
+                                                        'by_reference' => false)
+        );
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)

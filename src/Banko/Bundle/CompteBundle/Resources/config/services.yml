@@ -1,0 +1,5 @@
+services:
+    MouvementService:
+        class: Banko\Bundle\CompteBundle\Services\MouvementService
+        arguments:    
+            entityManager: "@doctrine.orm.entity_manager"

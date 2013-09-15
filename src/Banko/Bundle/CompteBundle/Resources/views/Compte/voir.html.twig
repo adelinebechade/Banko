@@ -12,6 +12,12 @@
     {{ compte.nom }}
   </h2> 
 
+  <p>
+    <a href="{{ path('mouvement_new', {'compte_id': compte.id}) }}" class="btn btn-success">
+      <i class="icon-plus"></i>
+    </a>
+  </p>
+
   <table id="mouvements" class="table table-bordered table-condensed">
     <thead>
         <tr>
@@ -20,6 +26,7 @@
 	    <th>DATE</th>
 	    <th>CREDIT</th>
 	    <th>DEBIT</th>
+            <th></th>
         </tr>
     </thead>
     {% for mouvement in liste_mouvements %}
@@ -104,6 +111,7 @@
         <td><a href="#" id="date{{ mouvement.id }}">{{ mouvement.date|date('d.m.Y') }}</a></td>
         <td><a href="#" id="credit{{ mouvement.id }}">{{ mouvement.credit }}</a></td>
         <td><a href="#" id="debit{{ mouvement.id }}">{{ mouvement.debit }}</a></td>
+        <td><a href="{{ path('mouvement_delete', { 'id': mouvement.id }) }}"><i class="icon-remove"></i></a></td>
       </tr>
     {% else %}
       <tr>Pas (encore !) de mouvement</tr>

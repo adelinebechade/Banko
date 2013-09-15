@@ -10,6 +10,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Response; // ICI
 use Banko\Bundle\CompteBundle\Entity\Mouvement;
 use Banko\Bundle\CompteBundle\Form\MouvementType;
+//use Banko\Bundle\CompteBundle\Form\CompteMouvementType;
 
 /**
  * Mouvement controller.
@@ -39,11 +40,11 @@ class MouvementController extends Controller
     /**
      * Creates a new Mouvement entity.
      *
-     * @Route("/", name="mouvement_create")
+     * @Route("/{compte_id}", name="mouvement_create")
      * @Method("POST")
      * @Template("BankoCompteBundle:Mouvement:new.html.twig")
      */
-    public function createAction(Request $request)
+    public function createAction(Request $request, $compte_id)
     {
         $entity  = new Mouvement();
         $form = $this->createForm(new MouvementType(), $entity);
@@ -51,10 +52,13 @@ class MouvementController extends Controller
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $em->persist($entity);
-            $em->flush();
-
-            return $this->redirect($this->generateUrl('mouvement_show', array('id' => $entity->getId())));
+            $compte = $em->getRepository('BankoCompteBundle:Compte')->find($compte_id);
+            
+            $this->get('MouvementService')->create($entity, $compte);
+            
+            $this->get('session')->getFlashBag()->add('success', 'La création a été effectuée avec succès');
+            
+            return $this->redirect($this->generateUrl('banko_voir', array('id' => $compte_id)));
         }
 
         return array(
@@ -66,17 +70,18 @@ class MouvementController extends Controller
     /**
      * Displays a form to create a new Mouvement entity.
      *
-     * @Route("/new", name="mouvement_new")
+     * @Route("/new/{compte_id}", name="mouvement_new")
      * @Method("GET")
      * @Template()
      */
-    public function newAction()
+    public function newAction($compte_id)
     {
         $entity = new Mouvement();
-        $form   = $this->createForm(new MouvementType(), $entity);
-
+        $form   = $this->createForm(new MouvementType(), $entity);;
+        
         return array(
             'entity' => $entity,
+            'compte_id'   => $compte_id,
             'form'   => $form->createView(),
         );
     }
@@ -102,7 +107,7 @@ class MouvementController extends Controller
 
         return array(
             'entity'      => $entity,
-            'delete_form' => $deleteForm->createView(),
+            //'delete_form' => $deleteForm->createView(),
         );
     }
 
@@ -169,28 +174,25 @@ class MouvementController extends Controller
     /**
      * Deletes a Mouvement entity.
      *
-     * @Route("/{id}", name="mouvement_delete")
-     * @Method("DELETE")
+     * @Route("/delete/{id}", name="mouvement_delete")
      */
     public function deleteAction(Request $request, $id)
     {
-        $form = $this->createDeleteForm($id);
-        $form->bind($request);
+         
+        $em = $this->getDoctrine()->getManager();
+        $entity = $em->getRepository('BankoCompteBundle:Mouvement')->find($id);
+        $compte_id = $entity->getCompte()->getId();
 
-        if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('BankoCompteBundle:Mouvement')->find($id);
-
-            if (!$entity) {
-                throw $this->createNotFoundException('Unable to find Mouvement entity.');
-            }
-
-            $em->remove($entity);
-            $em->flush();
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Mouvement entity.');
         }
 
-        return $this->redirect($this->generateUrl('mouvement'));
-    }
+        $em->remove($entity);
+        $em->flush();
+
+        return $this->redirect($this->generateUrl('banko_voir', array('id' => $compte_id)));
+    
+     }
 
     /**
      * Creates a form to delete a Mouvement entity by id.
@@ -201,10 +203,10 @@ class MouvementController extends Controller
      */
     private function createDeleteForm($id)
     {
-        return $this->createFormBuilder(array('id' => $id))
+        /*return $this->createFormBuilder(array('id' => $id))
             ->add('id', 'hidden')
             ->getForm()
-        ;
+        ;*/
     }
     
         

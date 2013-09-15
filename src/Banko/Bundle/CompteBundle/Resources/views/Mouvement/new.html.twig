@@ -8,7 +8,7 @@
 {% block body -%}
     <h1>Mouvement creation</h1>
 
-    <form action="{{ path('mouvement_create') }}" method="post" {{ form_enctype(form) }}>
+    <form action="{{ path('mouvement_create', {'compte_id': compte_id}) }}" method="post" {{ form_enctype(form) }}>
         {{ form_widget(form) }}
         <p>
             <button type="submit">Create</button>
