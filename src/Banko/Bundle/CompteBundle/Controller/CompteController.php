@@ -34,10 +34,6 @@ class CompteController extends Controller
       $em = $this->getDoctrine()->getManager();
       $compte = $em->getRepository('BankoCompteBundle:Compte')->find($id);
 
-      /*$article = $this->getDoctrine()
-                  ->getManager()
-                  ->find('SdzBlogBundle:Article', $id);*/
-
       if($compte == null)
       {
           throw $this->createNotFoundException('Compte [id='.$id.'] inexistant.');

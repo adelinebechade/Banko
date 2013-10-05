@@ -10,7 +10,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Response; // ICI
 use Banko\Bundle\CompteBundle\Entity\Mouvement;
 use Banko\Bundle\CompteBundle\Form\MouvementType;
-//use Banko\Bundle\CompteBundle\Form\CompteMouvementType;
 
 /**
  * Mouvement controller.
@@ -40,7 +39,7 @@ class MouvementController extends Controller
     /**
      * Creates a new Mouvement entity.
      *
-     * @Route("/{compte_id}", name="mouvement_create")
+     * @Route("/create/{compte_id}", name="mouvement_create")
      * @Method("POST")
      * @Template("BankoCompteBundle:Mouvement:new.html.twig")
      */
@@ -53,7 +52,7 @@ class MouvementController extends Controller
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $compte = $em->getRepository('BankoCompteBundle:Compte')->find($compte_id);
-            
+
             $this->get('MouvementService')->create($entity, $compte);
             
             $this->get('session')->getFlashBag()->add('success', 'La création a été effectuée avec succès');
@@ -78,7 +77,7 @@ class MouvementController extends Controller
     {
         $entity = new Mouvement();
         $form   = $this->createForm(new MouvementType(), $entity);;
-        
+
         return array(
             'entity' => $entity,
             'compte_id'   => $compte_id,
@@ -178,7 +177,6 @@ class MouvementController extends Controller
      */
     public function deleteAction(Request $request, $id)
     {
-         
         $em = $this->getDoctrine()->getManager();
         $entity = $em->getRepository('BankoCompteBundle:Mouvement')->find($id);
         $compte_id = $entity->getCompte()->getId();
@@ -191,8 +189,7 @@ class MouvementController extends Controller
         $em->flush();
 
         return $this->redirect($this->generateUrl('banko_voir', array('id' => $compte_id)));
-    
-     }
+    }
 
     /**
      * Creates a form to delete a Mouvement entity by id.

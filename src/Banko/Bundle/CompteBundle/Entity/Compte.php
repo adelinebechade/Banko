@@ -3,6 +3,7 @@
 namespace Banko\Bundle\CompteBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Compte
@@ -42,6 +43,7 @@ class Compte
      */
     private $ordre;
 
+    protected $mouvements;
 
     /**
      * Get id
@@ -120,5 +122,38 @@ class Compte
     public function getOrdre()
     {
         return $this->ordre;
+    }
+
+    /**
+     * Add mouvements
+     *
+     * @param \Banko\Bundle\CompteBundle\Entity\Mouvement $mouvements
+     * @return Compte
+     */
+    public function addMouvement(\Banko\Bundle\CompteBundle\Entity\Mouvement $mouvements)
+    {
+        $this->mouvements[] = $mouvements;
+    
+        return $this;
+    }
+
+    /**
+     * Remove mouvements
+     *
+     * @param \Banko\Bundle\CompteBundle\Entity\Mouvement $mouvements
+     */
+    public function removeMouvement(\Banko\Bundle\CompteBundle\Entity\Mouvement $mouvements)
+    {
+        $this->mouvements->removeElement($mouvements);
+    }
+
+    public function getMouvements()
+    {
+        return $this->mouvements;
+    }
+
+    public function setMouvements(ArrayCollection $mouvements)
+    {
+        $this->mouvements = $mouvements;
     }
 }

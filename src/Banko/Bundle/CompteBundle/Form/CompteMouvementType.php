@@ -10,12 +10,9 @@ class CompteMouvementType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('mouvements', 'collection', array('type' => new MouvementType(), 
+        $builder->add('mouvements', 'collection', array('type' => new MouvementType(),
                                                         'allow_add' => true,
-                                                        'allow_delete' => true,
-                                                        'prototype' => true,
-                                                        'by_reference' => false)
-        );
+                                                        'by_reference' => false,));
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)
@@ -27,6 +24,6 @@ class CompteMouvementType extends AbstractType
 
     public function getName()
     {
-        return 'banko_bundle_comptebundle_mouvementtype';
+        return 'banko_bundle_comptebundle_comptemouvementtype';
     }
 }
