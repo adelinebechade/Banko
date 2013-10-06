@@ -18,7 +18,9 @@
     </a>
   </p>
 
-  <table id="mouvements" class="table table-bordered table-condensed">
+  
+    {% for mouvement in liste_mouvements %}
+    <table id="mouvements" class="table table-bordered table-condensed">
     <thead>
         <tr>
 	    <th>TRAITE</th>
@@ -29,8 +31,6 @@
             <th></th>
         </tr>
     </thead>
-    {% for mouvement in liste_mouvements %}
- 
     <script type="text/javascript">
         $.fn.editable.defaults.mode = 'inline';
         $(document).ready(function(data) {
@@ -117,7 +117,7 @@
       <tr>Pas (encore !) de mouvement</tr>
     {% endfor %}
   </table>
-  
+  <p></p>   
   <p>
     <a href="{{ path('banko_home') }}" class="btn">
       <i class="icon-chevron-left"></i>Retour à la liste

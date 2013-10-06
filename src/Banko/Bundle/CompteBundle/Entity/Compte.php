@@ -43,6 +43,10 @@ class Compte
      */
     private $ordre;
 
+    /**
+     * @ORM\OneToMany(targetEntity="Banko\Bundle\CompteBundle\Entity\Mouvement", mappedBy="compte", cascade={"persist"})
+     * @ORM\JoinColumn(nullable=true)
+     */
     protected $mouvements;
 
     /**
@@ -76,6 +80,11 @@ class Compte
     public function getNom()
     {
         return $this->nom;
+    }
+
+    public function __construct()
+    {
+        $this->mouvements = new ArrayCollection();
     }
 
     /**
@@ -154,6 +163,10 @@ class Compte
 
     public function setMouvements(ArrayCollection $mouvements)
     {
+        foreach ($mouvements as $mouvement)
+        {
+            $mouvement->setCompte($this);
+        }
         $this->mouvements = $mouvements;
     }
 }

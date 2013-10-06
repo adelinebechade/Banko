@@ -10,6 +10,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Response; // ICI
 use Banko\Bundle\CompteBundle\Entity\Mouvement;
 use Banko\Bundle\CompteBundle\Form\MouvementType;
+use Banko\Bundle\CompteBundle\Form\CompteType;
 
 /**
  * Mouvement controller.
@@ -47,21 +48,26 @@ class MouvementController extends Controller
     {
         $entity  = new Mouvement();
         $form = $this->createForm(new MouvementType(), $entity);
-        $form->bind($request);
+        
+        if ($request->isMethod('POST'))
+        {
+            $form->bind($request);
 
-        if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $compte = $em->getRepository('BankoCompteBundle:Compte')->find($compte_id);
+            if ($form->isValid()) {
+                                var_dump('coucou');exit;
+                $em = $this->getDoctrine()->getManager();
+                $compte = $em->getRepository('BankoCompteBundle:Compte')->find($compte_id);
+                $compte->getMouvements()->addMouvement($entity);
+                //$this->get('MouvementService')->create($entity, $compte);
 
-            $this->get('MouvementService')->create($entity, $compte);
-            
-            $this->get('session')->getFlashBag()->add('success', 'La création a été effectuée avec succès');
-            
-            return $this->redirect($this->generateUrl('banko_voir', array('id' => $compte_id)));
+                $this->get('session')->getFlashBag()->add('success', 'La création a été effectuée avec succès');
+
+                return $this->redirect($this->generateUrl('banko_voir', array('id' => $compte_id)));
+            }
         }
-
         return array(
             'entity' => $entity,
+            'compte_id'   => $compte_id,
             'form'   => $form->createView(),
         );
     }
@@ -70,18 +76,41 @@ class MouvementController extends Controller
      * Displays a form to create a new Mouvement entity.
      *
      * @Route("/new/{compte_id}", name="mouvement_new")
-     * @Method("GET")
      * @Template()
      */
-    public function newAction($compte_id)
+    public function newAction(Request $request, $compte_id)
     {
-        $entity = new Mouvement();
-        $form   = $this->createForm(new MouvementType(), $entity);;
+        $em = $this->getDoctrine()->getManager();
+        $compte = $em->getRepository('BankoCompteBundle:Compte')->find($compte_id);
+        
+        $compte->getMouvements()->add(new Mouvement());
+        $form = $this->createForm(new CompteType(), $compte);
 
+        // analyse le formulaire quand on reçoit une requête POST
+        if ($request->isMethod('POST'))
+        {
+            $form->bind($request);
+            if ($form->isValid()) {
+
+                foreach($compte->getMouvements() as $mvt)
+                {
+                    //$compte->addMouvement($mvt);
+                    $this->get('MouvementService')->create($mvt, $compte);
+                }
+
+                // ici vous pouvez par exemple sauvegarder la Task et ses objets Tag
+                $this->get('session')->getFlashBag()->add('success', 'La création a été effectuée avec succès');
+                return $this->redirect($this->generateUrl('banko_voir', array('id' => $compte_id)));
+            }
+            else
+            {
+                $this->get('session')->getFlashBag()->add('danger', 'La création a échoué');
+            }
+        }
+        
         return array(
-            'entity' => $entity,
+            'form' => $form->createView(),
             'compte_id'   => $compte_id,
-            'form'   => $form->createView(),
         );
     }
 

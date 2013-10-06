@@ -3,7 +3,6 @@
 namespace Banko\Bundle\CompteBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Mouvement
@@ -41,12 +40,12 @@ class Mouvement
      *
      * @ORM\Column(name="libelle", type="string", length=255)
      */
-    private $libelle;
+    public $libelle;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="date", type="datetime")
+     * @ORM\Column(name="date", type="datetime", nullable=true)
      */
     private $date;
 
@@ -63,11 +62,6 @@ class Mouvement
      * @ORM\Column(name="debit", type="string", length=255)
      */
     private $debit;
-    
-    public function __construct()
-    {
-        $this->mouvements = new ArrayCollection();
-    }
 
     /**
      * Get id
