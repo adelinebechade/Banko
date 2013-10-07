@@ -83,23 +83,29 @@ class MouvementController extends Controller
         $em = $this->getDoctrine()->getManager();
         $compte = $em->getRepository('BankoCompteBundle:Compte')->find($compte_id);
         
-        $compte->getMouvements()->add(new Mouvement());
-        $form = $this->createForm(new CompteType(), $compte);
+        $form = $this->createForm(new CompteType());
 
         // analyse le formulaire quand on reçoit une requête POST
         if ($request->isMethod('POST'))
         {
             $form->bind($request);
             if ($form->isValid()) {
-
-                foreach($compte->getMouvements() as $mvt)
-                {
-                    //$compte->addMouvement($mvt);
-                    $this->get('MouvementService')->create($mvt, $compte);
+                $data = $request->request->get($form->getName());
+                $mouvements = $data['mouvements'];
+//var_dump($mouvements);exit;
+                foreach($mouvements as $key => $mvt)
+                {             
+                    $mouvement = new Mouvement();
+                    $mouvement->setTraite($mvt['traite']);
+                    $mouvement->setLibelle($mvt['libelle']);
+                    $mouvement->setDate($mvt['date']);
+                    $mouvement->setCredit($mvt['credit']);
+                    $mouvement->setDebit($mvt['debit']);
+                    $mouvement->setCompte($compte);
+                    $em->persist($mouvement);
                 }
+                $em->flush();
 
-                // ici vous pouvez par exemple sauvegarder la Task et ses objets Tag
-                $this->get('session')->getFlashBag()->add('success', 'La création a été effectuée avec succès');
                 return $this->redirect($this->generateUrl('banko_voir', array('id' => $compte_id)));
             }
             else

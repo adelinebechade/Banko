@@ -43,9 +43,9 @@ class Mouvement
     public $libelle;
 
     /**
-     * @var \DateTime
+     * @var string
      *
-     * @ORM\Column(name="date", type="datetime", nullable=true)
+     * @ORM\Column(name="date", type="string", nullable=true)
      */
     private $date;
 
