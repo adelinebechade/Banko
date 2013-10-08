@@ -12,99 +12,92 @@
     {{ compte.nom }}
   </h2> 
 
-  <p>
-    <a href="{{ path('mouvement_new', {'compte_id': compte.id}) }}" class="btn btn-success">
-      <i class="icon-plus"></i>
-    </a>
-  </p>
-
-  
-    {% for mouvement in liste_mouvements %}
-    <table id="mouvements" class="table table-bordered table-condensed">
+  <table id="mouvements" class="table table-bordered table-condensed">
     <thead>
         <tr>
-	    <th>TRAITE</th>
+      <th>TRAITE</th>
             <th>LIBELLE</th>
-	    <th>DATE</th>
-	    <th>CREDIT</th>
-	    <th>DEBIT</th>
+      <th>DATE</th>
+      <th>CREDIT</th>
+      <th>DEBIT</th>
             <th></th>
         </tr>
     </thead>
-    <script type="text/javascript">
-        $.fn.editable.defaults.mode = 'inline';
-        $(document).ready(function(data) {
-            $('#mouvements #traite{{ mouvement.id }}').editable({
-              type: 'select',
-              source: [{value: 1, text: 'Oui'}, {value: 2, text: 'Non'}],
-              value: [1, 2],
-              inputclass: 'input editable editable-click editable-empty checkboxtraite',
-              success: function() {
-                var traite = $('.checkboxtraite').val();
-                $.ajax({
-                    type: "POST",
-                    url: '{{ path('mouvement_update2' , { 'id': mouvement.id }) }}',
-                    data: { traite: traite },
-                });     
-              }   
-            });
+    {% for mouvement in liste_mouvements %}
+    
+      <script type="text/javascript">
+          $.fn.editable.defaults.mode = 'inline';
+          $(document).ready(function(data) {
+              $('#mouvements #traite{{ mouvement.id }}').editable({
+                type: 'select',
+                source: [{value: 1, text: 'Oui'}, {value: 0, text: 'Non'}],
+                value: [1, 0],
+                inputclass: 'input editable editable-click editable-empty checkboxtraite',
+                success: function() {
+                  var traite = $('.checkboxtraite').val();
+                  $.ajax({
+                      type: "POST",
+                      url: '{{ path('mouvement_update2' , { 'id': mouvement.id }) }}',
+                      data: { traite: traite },
+                  });     
+                }   
+              });
 
-            $('#mouvements #libelle{{ mouvement.id }}').editable({
-              inputclass: 'input input-small inputlibelle',
-              success: function() {
-                var libelle = $('.inputlibelle').val();
-                $.ajax({
-                    type: "POST",
-                    url: '{{ path('mouvement_update2' , { 'id': mouvement.id }) }}',
-                    data: { libelle: libelle },
-                });     
-              }   
-            });
- 
-            $('#mouvements #date{{ mouvement.id }}').editable({
-              inputclass: 'input input-small inputdate editable editable-click',
-              type: 'date',
-              format: 'yyyy-mm-dd',
-              viewformat: 'dd.mm.yyyy',
-              datepicker: {
-                weekStart: 1
-              },
-              success: function() {
-                var date = $('.inputdate').val();
-                $.ajax({
-                    type: "POST",
-                    url: '{{ path('mouvement_update2' , { 'id': mouvement.id }) }}',
-                    data: { date: date },
-                });     
-              }   
-            });
-            
-            $('#mouvements #credit{{ mouvement.id }}').editable({
-              inputclass: 'input input-small inputcredit',
-              success: function() {
-                var credit = $('.inputcredit').val();
-                $.ajax({
-                    type: "POST",
-                    url: '{{ path('mouvement_update2' , { 'id': mouvement.id }) }}',
-                    data: { credit: credit },
-                });     
-              }   
-            });
-            
-            $('#mouvements #debit{{ mouvement.id }}').editable({
-              inputclass: 'input input-small inputdebit',
-              success: function() {
-                var debit = $('.inputdebit').val();
-                $.ajax({
-                    type: "POST",
-                    url: '{{ path('mouvement_update2' , { 'id': mouvement.id }) }}',
-                    data: { debit: debit },
-                });     
-              }   
-            });
-        });
-    </script>
- 
+              $('#mouvements #libelle{{ mouvement.id }}').editable({
+                inputclass: 'input input-small inputlibelle',
+                success: function() {
+                  var libelle = $('.inputlibelle').val();
+                  $.ajax({
+                      type: "POST",
+                      url: '{{ path('mouvement_update2' , { 'id': mouvement.id }) }}',
+                      data: { libelle: libelle },
+                  });     
+                }   
+              });
+   
+              $('#mouvements #date{{ mouvement.id }}').editable({
+                inputclass: 'input input-small inputdate editable editable-click',
+                type: 'date',
+                format: 'yyyy-mm-dd',
+                viewformat: 'dd.mm.yyyy',
+                datepicker: {
+                  weekStart: 1
+                },
+                success: function() {
+                  var date = $('.inputdate').val();
+                  $.ajax({
+                      type: "POST",
+                      url: '{{ path('mouvement_update2' , { 'id': mouvement.id }) }}',
+                      data: { date: date },
+                  });     
+                }   
+              });
+              
+              $('#mouvements #credit{{ mouvement.id }}').editable({
+                inputclass: 'input input-small inputcredit',
+                success: function() {
+                  var credit = $('.inputcredit').val();
+                  $.ajax({
+                      type: "POST",
+                      url: '{{ path('mouvement_update2' , { 'id': mouvement.id }) }}',
+                      data: { credit: credit },
+                  });     
+                }   
+              });
+              
+              $('#mouvements #debit{{ mouvement.id }}').editable({
+                inputclass: 'input input-small inputdebit',
+                success: function() {
+                  var debit = $('.inputdebit').val();
+                  $.ajax({
+                      type: "POST",
+                      url: '{{ path('mouvement_update2' , { 'id': mouvement.id }) }}',
+                      data: { debit: debit },
+                  });     
+                }   
+              });
+          });
+      </script>
       <tr>
         <td><a href="#" id="traite{{ mouvement.id }}">{% if mouvement.traite == 1 %}Oui{% else %}Non{% endif %} </a></td>
         <td><a href="#" id="libelle{{ mouvement.id }}">{{ mouvement.libelle }}</a></td>
@@ -117,7 +110,8 @@
       <tr>Pas (encore !) de mouvement</tr>
     {% endfor %}
   </table>
-  <p></p>   
+  {{ render(controller('BankoCompteBundle:Mouvement:new', {'compte_id': compte.id})) }}
+
   <p>
     <a href="{{ path('banko_home') }}" class="btn">
       <i class="icon-chevron-left"></i>Retour à la liste

@@ -91,6 +91,25 @@ class MouvementController extends Controller
         {
             $form->bind($request);
             if ($form->isValid()) {
+                $data = $request->request->get($form->getName());
+                $mouvements = $data['mouvements'];
+
+                foreach($mouvements as $key => $mvt)
+                {             
+                    $mouvement = new Mouvement();
+
+                    if (count($mouvements[$key]) < 5)
+                        $mouvement->setTraite(0);
+                    else
+                        $mouvement->setTraite($mvt['traite']);
+                    $mouvement->setLibelle($mvt['libelle']);
+                    $mouvement->setDate($mvt['date']);
+                    $mouvement->setCredit($mvt['credit']);
+                    $mouvement->setDebit($mvt['debit']);
+                    $mouvement->setCompte($compte);
+                    $em->persist($mouvement);
+                }
+                $em->flush();
 
                 foreach($compte->getMouvements() as $mvt)
                 {
@@ -252,7 +271,7 @@ class MouvementController extends Controller
         
         if ($request->get('traite') == '1')
             $entity->setTraite('1');
-        else
+        else if($request->get('traite') == '0')
             $entity->setTraite('0');
 
         if ($request->get('libelle') != null)

@@ -1,83 +1,72 @@
-{% extends "BankoCompteBundle::layout.html.twig" %}
-
 {% block javascripts %}
-    {{ parent() }}
     <script type="text/javascript" src="{{ asset('bundles/bankocompte/js/mouvement.js') }}"></script>
 {% endblock %}
 
 {% block body -%}
-    <h1>Mouvement creation</h1>
-
     <form action="{{ path('mouvement_new', {'compte_id': compte_id}) }}" method="post" {{ form_enctype(form) }}>
-        <ul class="mouvements" data-prototype="{{ form_widget(form.mouvements.vars.prototype)|e }}">
-            {{ form_rest(form) }}
-        </ul>
+
+        <div class="mouvements" data-prototype="{{ form_widget(form.mouvements.vars.prototype)|e }}">
+        </div>
         <p>
-            <button type="submit">Create</button>
+            <button type="submit" class="btn btn-link"><i class="icon-ok"></i></button>
         </p>
     </form>
 
-    <ul class="record_actions">
-        <li>
-            <a href="{{ path('mouvement') }}">
-                Back to the list
-            </a>
-        </li>
-    </ul>
+    <script>
+        // Récupère le div qui contient la collection de mvts
+        var collectionHolder = $('div.mouvements');
 
-<script>
-    // Récupère le div qui contient la collection de mvts
-    var collectionHolder = $('ul.mouvements');
-
-    // ajoute un lien « add a mvt »
-    var $addMvtLink = $('<a href="#" class="add_mvt_link">Ajouter un mouvement</a>');
-    var $newLinkLi = $('<li></li>').append($addMvtLink);
-
-    jQuery(document).ready(function() {
-        // ajoute un lien de suppression à tous les éléments li de
-        // formulaires de mvt existants
-        collectionHolder.find('li').each(function() {
-            addMvtFormDeleteLink($(this));
-        });
-        // ajoute l'ancre « ajouter un mvt » et li à la balise ul
-        collectionHolder.append($newLinkLi);
-
-        $addMvtLink.on('click', function(e) {
-            // empêche le lien de créer un « # » dans l'URL
-            e.preventDefault();
-
-            // ajoute un nouveau formulaire mvt (voir le prochain bloc de code)
-            addMvtForm(collectionHolder, $newLinkLi);
-        });
-    });
-    
-    function addMvtForm(collectionHolder, $newLinkLi) {
-        // Récupère l'élément ayant l'attribut data-prototype comme expliqué plus tôt
-        var prototype = collectionHolder.attr('data-prototype');
-
-        // Remplace '__name__' dans le HTML du prototype par un nombre basé sur
-        // la longueur de la collection courante
-        var newForm = prototype.replace(/__name__/g, collectionHolder.children().length);
-
-        // Affiche le formulaire dans la page dans un li, avant le lien "ajouter un mvt"
-        var $newFormLi = $('<li></li>').append(newForm);
-        $newLinkLi.before($newFormLi);
+        // ajoute un lien « add a mvt »
         
-        // ajoute un lien de suppression au nouveau formulaire
-        addMvtFormDeleteLink($newFormLi);
-    }
+        var $addMvtLink = $('<a href="#" class="btn btn-success btn-link add_mvt_link"><i class="icon-plus"></i></a>');
+        var $newLinkLi = $('<p></p>').append($addMvtLink);
 
-    function addMvtFormDeleteLink($mvtFormLi) {
-        var $removeFormA = $('<a href="#">Supprimer ce mouvement</a>');
-        $mvtFormLi.append($removeFormA);
+        jQuery(document).ready(function() {
+            $('.required').addClass('hide');
+            // ajoute un lien de suppression à tous les éléments li de
+            // formulaires de mvt existants
+            collectionHolder.find('li').each(function() {
+                addMvtFormDeleteLink($(this));
+            });
+            // ajoute l'ancre « ajouter un mvt » et li à la balise ul
+            collectionHolder.append($newLinkLi);
 
-        $removeFormA.on('click', function(e) {
-            // empêche le lien de créer un « # » dans l'URL
-            e.preventDefault();
+            $addMvtLink.on('click', function(e) {
+                // empêche le lien de créer un « # » dans l'URL
+                e.preventDefault();
 
-            // supprime l'élément li pour le formulaire de mvt
-            $mvtFormLi.remove();
+                // ajoute un nouveau formulaire mvt (voir le prochain bloc de code)
+                addMvtForm(collectionHolder, $newLinkLi);
+            });
         });
-    }
-</script>
+
+        function addMvtForm(collectionHolder, $newLinkLi) {
+            // Récupère l'élément ayant l'attribut data-prototype comme expliqué plus tôt
+            var prototype = collectionHolder.attr('data-prototype');
+
+            // Remplace '__name__' dans le HTML du prototype par un nombre basé sur
+            // la longueur de la collection courante
+            var newForm = prototype.replace(/__name__/g, collectionHolder.children().length);
+
+            // Affiche le formulaire dans la page dans un li, avant le lien "ajouter un mvt"
+            var $newFormLi = $('<p></p>').append(newForm);
+            $newLinkLi.before($newFormLi);
+
+            // ajoute un lien de suppression au nouveau formulaire
+            addMvtFormDeleteLink($newFormLi);
+        }
+
+        function addMvtFormDeleteLink($mvtFormLi) {
+            var $removeFormA = $('<a href="#" class="btn btn-danger btn-link"><i class="icon-remove"></a>');
+            $mvtFormLi.append($removeFormA);
+
+            $removeFormA.on('click', function(e) {
+                // empêche le lien de créer un « # » dans l'URL
+                e.preventDefault();
+
+                // supprime l'élément li pour le formulaire de mvt
+                $mvtFormLi.remove();
+            });
+        }
+    </script>
 {% endblock %}
