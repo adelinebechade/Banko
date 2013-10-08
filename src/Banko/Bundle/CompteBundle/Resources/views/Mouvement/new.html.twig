@@ -4,23 +4,25 @@
 
 {% block body -%}
     <form action="{{ path('mouvement_new', {'compte_id': compte_id}) }}" method="post" {{ form_enctype(form) }}>
-        <ul class="mouvements" data-prototype="{{ form_widget(form.mouvements.vars.prototype)|e }}">
-            {{ form_rest(form) }}
-        </ul>
+
+        <div class="mouvements" data-prototype="{{ form_widget(form.mouvements.vars.prototype)|e }}">
+        </div>
         <p>
-            <button type="submit">Create</button>
+            <button type="submit" class="btn btn-link"><i class="icon-ok"></i></button>
         </p>
     </form>
 
     <script>
         // Récupère le div qui contient la collection de mvts
-        var collectionHolder = $('ul.mouvements');
+        var collectionHolder = $('div.mouvements');
 
         // ajoute un lien « add a mvt »
-        var $addMvtLink = $('<a href="#" class="add_mvt_link">Ajouter un mouvement</a>');
-        var $newLinkLi = $('<li></li>').append($addMvtLink);
+        
+        var $addMvtLink = $('<a href="#" class="btn btn-success btn-link add_mvt_link"><i class="icon-plus"></i></a>');
+        var $newLinkLi = $('<p></p>').append($addMvtLink);
 
         jQuery(document).ready(function() {
+            $('.required').addClass('hide');
             // ajoute un lien de suppression à tous les éléments li de
             // formulaires de mvt existants
             collectionHolder.find('li').each(function() {
@@ -47,7 +49,7 @@
             var newForm = prototype.replace(/__name__/g, collectionHolder.children().length);
 
             // Affiche le formulaire dans la page dans un li, avant le lien "ajouter un mvt"
-            var $newFormLi = $('<li></li>').append(newForm);
+            var $newFormLi = $('<p></p>').append(newForm);
             $newLinkLi.before($newFormLi);
 
             // ajoute un lien de suppression au nouveau formulaire
@@ -55,7 +57,7 @@
         }
 
         function addMvtFormDeleteLink($mvtFormLi) {
-            var $removeFormA = $('<a href="#">Supprimer ce mouvement</a>');
+            var $removeFormA = $('<a href="#" class="btn btn-danger btn-link"><i class="icon-remove"></a>');
             $mvtFormLi.append($removeFormA);
 
             $removeFormA.on('click', function(e) {
