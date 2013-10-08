@@ -36,8 +36,8 @@
           $(document).ready(function(data) {
               $('#mouvements #traite{{ mouvement.id }}').editable({
                 type: 'select',
-                source: [{value: 1, text: 'Oui'}, {value: 2, text: 'Non'}],
-                value: [1, 2],
+                source: [{value: 1, text: 'Oui'}, {value: 0, text: 'Non'}],
+                value: [1, 0],
                 inputclass: 'input editable editable-click editable-empty checkboxtraite',
                 success: function() {
                   var traite = $('.checkboxtraite').val();
@@ -116,7 +116,8 @@
       <tr>Pas (encore !) de mouvement</tr>
     {% endfor %}
   </table>
-  
+  {{ render(controller('BankoCompteBundle:Mouvement:new', {'compte_id': compte.id})) }}
+
   <p>
     <a href="{{ path('banko_home') }}" class="btn">
       <i class="icon-chevron-left"></i>Retour à la liste

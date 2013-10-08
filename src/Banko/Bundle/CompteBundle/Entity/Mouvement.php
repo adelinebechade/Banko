@@ -14,7 +14,7 @@ class Mouvement
 {
     
     /**
-     * @ORM\ManyToOne(targetEntity="Banko\Bundle\CompteBundle\Entity\Compte")
+     * @ORM\ManyToOne(targetEntity="Banko\Bundle\CompteBundle\Entity\Compte", inversedBy="mouvements")
      * @ORM\JoinColumn(nullable=false)
      */
     private $compte;
@@ -40,7 +40,7 @@ class Mouvement
      *
      * @ORM\Column(name="libelle", type="string", length=255)
      */
-    public $libelle;
+    protected $libelle;
 
     /**
      * @var string
