@@ -11,7 +11,7 @@ class MouvementType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('traite', 'checkbox', array('required' => false, 'data' => true))
+            ->add('traite', 'checkbox', array('required' => false))
             ->add('libelle', 'text', array('data' => ''))
             ->add('date', 'text', array('data' => date("d/m/Y"), 'attr' => array('class' => 'form_date')))
             ->add('credit', 'text', array('data' => '0'))
