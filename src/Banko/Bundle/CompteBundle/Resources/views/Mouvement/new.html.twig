@@ -1,72 +1,89 @@
+{% extends "BankoCompteBundle::compte.html.twig" %}
+
 {% block javascripts %}
     <script type="text/javascript" src="{{ asset('bundles/bankocompte/js/mouvement.js') }}"></script>
 {% endblock %}
 
 {% block body -%}
     <form action="{{ path('mouvement_new', {'compte_id': compte_id}) }}" method="post" {{ form_enctype(form) }}>
-
-        <div class="mouvements" data-prototype="{{ form_widget(form.mouvements.vars.prototype)|e }}">
-        </div>
-        <p>
+        <div id="titre">Ajouter des mouvements
             <button type="submit" class="btn btn-link"><i class="icon-ok"></i></button>
-        </p>
+        </div>
+        <div class="mouvements" data-prototype="
+                <table id=&quot;new_mouvements&quot; name=&quot;new_mouvements&quot; class=&quot;table table-condensed&quot;>
+                    <thead>
+                    <tr>
+                        <td>{{ form_widget(form.mouvements.vars.prototype.traite) | e }}</td>
+                        <td>{{ form_widget(form.mouvements.vars.prototype.libelle) | e }}</td>
+                        <td>{{ form_widget(form.mouvements.vars.prototype.date) | e }}</td>
+                        <td>{{ form_widget(form.mouvements.vars.prototype.credit) | e }}</td>
+                        <td>{{ form_widget(form.mouvements.vars.prototype.debit) | e }}</td>
+                    </tr>
+                </table>
+            ">
+            {{ form_rest(form) }}
+        </div>
     </form>
 
-    <script>
-        // Récupère le div qui contient la collection de mvts
-        var collectionHolder = $('div.mouvements');
+<script>
+    // Récupère le div qui contient la collection de mvts
+    var collectionHolder = $('div.mouvements');
 
-        // ajoute un lien « add a mvt »
-        
-        var $addMvtLink = $('<a href="#" class="btn btn-success btn-link add_mvt_link"><i class="icon-plus"></i></a>');
-        var $newLinkLi = $('<p></p>').append($addMvtLink);
+    // ajoute un lien « add a mvt »
+    var $addMvtLink = $('<a href="#" class="btn btn-success btn-link add_mvt_link"><i class="icon-plus"></i></a>');
+    var $newLinkLi = $('<p></p>').append($addMvtLink);
 
-        jQuery(document).ready(function() {
-            $('.required').addClass('hide');
-            // ajoute un lien de suppression à tous les éléments li de
-            // formulaires de mvt existants
-            collectionHolder.find('li').each(function() {
-                addMvtFormDeleteLink($(this));
-            });
-            // ajoute l'ancre « ajouter un mvt » et li à la balise ul
-            collectionHolder.append($newLinkLi);
-
-            $addMvtLink.on('click', function(e) {
-                // empêche le lien de créer un « # » dans l'URL
-                e.preventDefault();
-
-                // ajoute un nouveau formulaire mvt (voir le prochain bloc de code)
-                addMvtForm(collectionHolder, $newLinkLi);
-            });
+    jQuery(document).ready(function() {
+        $('.required').addClass('hide');
+        // ajoute un lien de suppression à tous les éléments li de
+        // formulaires de mvt existants
+        collectionHolder.find('tr').each(function() {
+            addMvtFormDeleteLink($(this));
         });
+        // ajoute l'ancre « ajouter un mvt » et li à la balise ul
+        collectionHolder.append($newLinkLi);
 
-        function addMvtForm(collectionHolder, $newLinkLi) {
-            // Récupère l'élément ayant l'attribut data-prototype comme expliqué plus tôt
-            var prototype = collectionHolder.attr('data-prototype');
+        $addMvtLink.on('click', function(e) {
+            // empêche le lien de créer un « # » dans l'URL
+            e.preventDefault();
+            // ajoute un nouveau formulaire mvt (voir le prochain bloc de code)
+            addMvtForm(collectionHolder, $newLinkLi);
+        });
+    });
+    
+    function addMvtForm(collectionHolder, $newLinkLi) {
+        // Récupère l'élément ayant l'attribut data-prototype comme expliqué plus tôt
+        var prototype = collectionHolder.attr('data-prototype');
 
-            // Remplace '__name__' dans le HTML du prototype par un nombre basé sur
-            // la longueur de la collection courante
-            var newForm = prototype.replace(/__name__/g, collectionHolder.children().length);
+        // Remplace '__name__' dans le HTML du prototype par un nombre basé sur
+        // la longueur de la collection courante
+        var newForm = prototype.replace(/__name__/g, collectionHolder.children().length);
 
-            // Affiche le formulaire dans la page dans un li, avant le lien "ajouter un mvt"
-            var $newFormLi = $('<p></p>').append(newForm);
-            $newLinkLi.before($newFormLi);
+        // Affiche le formulaire dans la page dans un li, avant le lien "ajouter un mvt"
+        var $newFormLi = $('<p></p>').append(newForm);
+        $newLinkLi.before($newFormLi);
+        
+        // ajoute un lien de suppression au nouveau formulaire
+        addMvtFormDeleteLink($newFormLi, collectionHolder.children().length);
+    }
 
-            // ajoute un lien de suppression au nouveau formulaire
-            addMvtFormDeleteLink($newFormLi);
+    function addMvtFormDeleteLink($mvtFormLi, $idTableau) {
+        var $removeFormA = $('<td><a href="#" class="btn btn-danger btn-link"><i class="icon-remove"></a></td>');
+
+        $("#new_mouvements tr").append($removeFormA);
+
+        if($('#new_mouvements tr').length > 1) {
+           $('#new_mouvements tr').each(function(){
+              $("#new_mouvements tr td:last").hide()
+           })
         }
+        $removeFormA.on('click', function(e) {
+            // empêche le lien de créer un « # » dans l'URL
+            e.preventDefault();
 
-        function addMvtFormDeleteLink($mvtFormLi) {
-            var $removeFormA = $('<a href="#" class="btn btn-danger btn-link"><i class="icon-remove"></a>');
-            $mvtFormLi.append($removeFormA);
-
-            $removeFormA.on('click', function(e) {
-                // empêche le lien de créer un « # » dans l'URL
-                e.preventDefault();
-
-                // supprime l'élément li pour le formulaire de mvt
-                $mvtFormLi.remove();
-            });
-        }
-    </script>
+            // supprime l'élément li pour le formulaire de mvt
+            $mvtFormLi.remove();
+        });
+    }
+</script>
 {% endblock %}

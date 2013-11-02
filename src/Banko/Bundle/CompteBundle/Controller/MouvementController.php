@@ -83,8 +83,7 @@ class MouvementController extends Controller
         $em = $this->getDoctrine()->getManager();
         $compte = $em->getRepository('BankoCompteBundle:Compte')->find($compte_id);
         
-        $compte->getMouvements()->add(new Mouvement());
-        $form = $this->createForm(new CompteType(), $compte);
+        $form = $this->createForm(new CompteType());
 
         // analyse le formulaire quand on reçoit une requête POST
         if ($request->isMethod('POST'))
@@ -111,14 +110,6 @@ class MouvementController extends Controller
                 }
                 $em->flush();
 
-                foreach($compte->getMouvements() as $mvt)
-                {
-                    //$compte->addMouvement($mvt);
-                    $this->get('MouvementService')->create($mvt, $compte);
-                }
-
-                // ici vous pouvez par exemple sauvegarder la Task et ses objets Tag
-                $this->get('session')->getFlashBag()->add('success', 'La création a été effectuée avec succès');
                 return $this->redirect($this->generateUrl('banko_voir', array('id' => $compte_id)));
             }
             else
