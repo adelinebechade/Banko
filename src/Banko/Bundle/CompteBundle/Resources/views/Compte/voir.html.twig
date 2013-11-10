@@ -59,7 +59,7 @@
                 inputclass: 'input input-small inputdate editable editable-click',
                 type: 'date',
                 format: 'yyyy-mm-dd',
-                viewformat: 'dd.mm.yyyy',
+                viewformat: 'dd/mm/yyyy',
                 datepicker: {
                   weekStart: 1
                 },
@@ -101,7 +101,7 @@
       <tr>
         <td><a href="#" id="traite{{ mouvement.id }}">{% if mouvement.traite == 1 %}Oui{% else %}Non{% endif %} </a></td>
         <td><a href="#" id="libelle{{ mouvement.id }}">{{ mouvement.libelle }}</a></td>
-        <td><a href="#" id="date{{ mouvement.id }}">{{ mouvement.date|date('d.m.Y') }}</a></td>
+        <td><a href="#" id="date{{ mouvement.id }}">{{ mouvement.date }}</a></td>
         <td><a href="#" id="credit{{ mouvement.id }}">{{ mouvement.credit }}</a></td>
         <td><a href="#" id="debit{{ mouvement.id }}">{{ mouvement.debit }}</a></td>
         <td><a href="{{ path('mouvement_delete', { 'id': mouvement.id }) }}"><i class="icon-remove"></i></a></td>
