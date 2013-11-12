@@ -15,11 +15,11 @@
   <table id="mouvements" class="table table-bordered table-condensed">
     <thead>
         <tr>
-      <th>TRAITE</th>
+            <th>TRAITE</th>
             <th>LIBELLE</th>
-      <th>DATE</th>
-      <th>CREDIT</th>
-      <th>DEBIT</th>
+            <th>DATE</th>
+            <th>CREDIT</th>
+            <th>DEBIT</th>
             <th></th>
         </tr>
     </thead>
@@ -112,6 +112,24 @@
   </table>
   {{ render(controller('BankoCompteBundle:Mouvement:new', {'compte_id': compte.id})) }}
 
+    <table>
+        <tr>
+            <td style="width: 160px;"></td>
+            <td style="width: 160px;"></td>
+            <td style="width: 160px;"></td>
+            <td style="width: 160px;"></td>
+            <td style="width: 190px;">Solde Courant </td>
+            <td style="width: 148px;">{{ solde_courant }}</td>
+        </tr>
+        <tr>
+            <td style="width: 160px;"></td>
+            <td style="width: 160px;"></td>
+            <td style="width: 160px;"></td>
+            <td style="width: 160px;"></td>
+            <td style="width: 190px;">Solde Prévisionnel </td>
+            <td style="width: 148px;">{{ solde_previsionnel }}</td>
+        </tr>
+    </table>
   <p>
     <a href="{{ path('banko_home') }}" class="btn">
       <i class="icon-chevron-left"></i>Retour à la liste

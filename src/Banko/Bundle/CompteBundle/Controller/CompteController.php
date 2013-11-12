@@ -39,12 +39,22 @@ class CompteController extends Controller
           throw $this->createNotFoundException('Compte [id='.$id.'] inexistant.');
       }
 
-      // On récupère la liste des mouvements
-      $liste_mouvements = $em->getRepository('BankoCompteBundle:Mouvement')->findAll();
+      // On récupère la liste des mouvements par rapport au compte
+      $liste_mouvements = $em->getRepository('BankoCompteBundle:Mouvement')->findByCompte($id);
+      
+      //On récupère le solde courant (initial + totalCreditTraite - totalDebitTraite)
+      $compte_courant = $em->getRepository('BankoCompteBundle:Mouvement')->getMontantCompteCourant($id);
+      $solde_courant = $compte->getSoldeInitial() + $compte_courant[0]['totalCreditTraite'] - $compte_courant[0]['totalDebitTraite'];
+      
+      //On récupère le solde courant (initial + totalCredit - totalDebit)
+      $compte_previsionnel = $em->getRepository('BankoCompteBundle:Mouvement')->getMontantComptePrevisionnel($id);
+      $solde_previsionnel = $compte->getSoldeInitial() + $compte_previsionnel[0]['totalCredit'] - $compte_previsionnel[0]['totalDebit'] ;
 
       // Puis modifiez la ligne du render comme ceci, pour prendre en compte l'article :
       return $this->render('BankoCompteBundle:Compte:voir.html.twig', array(
         'compte' => $compte,
+        'solde_courant' => $solde_courant,
+        'solde_previsionnel' => $solde_previsionnel,
         'liste_mouvements' => $liste_mouvements,
       ));
     }
