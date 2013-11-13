@@ -48,6 +48,12 @@ class Compte
      * @ORM\JoinColumn(nullable=true)
      */
     protected $mouvements;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="Banko\Bundle\CompteBundle\Entity\MouvementAutomatique", mappedBy="compte", cascade={"persist"})
+     * @ORM\JoinColumn(nullable=true)
+     */
+    protected $mouvements_automatique;
 
     /**
      * Get id
@@ -173,5 +179,38 @@ class Compte
     public function __toString()
     {
         return $this->getNom();
+    }
+
+    /**
+     * Add mouvements_automatique
+     *
+     * @param \Banko\Bundle\CompteBundle\Entity\MouvementAutomatique $mouvementsAutomatique
+     * @return Compte
+     */
+    public function addMouvementsAutomatique(\Banko\Bundle\CompteBundle\Entity\MouvementAutomatique $mouvementsAutomatique)
+    {
+        $this->mouvements_automatique[] = $mouvementsAutomatique;
+    
+        return $this;
+    }
+
+    /**
+     * Remove mouvements_automatique
+     *
+     * @param \Banko\Bundle\CompteBundle\Entity\MouvementAutomatique $mouvementsAutomatique
+     */
+    public function removeMouvementsAutomatique(\Banko\Bundle\CompteBundle\Entity\MouvementAutomatique $mouvementsAutomatique)
+    {
+        $this->mouvements_automatique->removeElement($mouvementsAutomatique);
+    }
+
+    /**
+     * Get mouvements_automatique
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getMouvementsAutomatique()
+    {
+        return $this->mouvements_automatique;
     }
 }

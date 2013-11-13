@@ -13,6 +13,12 @@ use Doctrine\ORM\Mapping as ORM;
 class MouvementAutomatique
 {
     /**
+     * @ORM\ManyToOne(targetEntity="Banko\Bundle\CompteBundle\Entity\Compte", inversedBy="$mouvements_automatique")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $compte;
+
+    /**
      * @var integer
      *
      * @ORM\Column(name="id", type="integer")
@@ -24,7 +30,7 @@ class MouvementAutomatique
     /**
      * @var boolean
      *
-     * @ORM\Column(name="actif", type="boolean")
+     * @ORM\Column(name="actif", type="boolean", nullable=true)
      */
     private $actif;
 
@@ -180,5 +186,28 @@ class MouvementAutomatique
     public function getDebit()
     {
         return $this->debit;
+    }
+
+    /**
+     * Set compte
+     *
+     * @param \Banko\Bundle\CompteBundle\Entity\Compte $compte
+     * @return MouvementAutomatique
+     */
+    public function setCompte(\Banko\Bundle\CompteBundle\Entity\Compte $compte)
+    {
+        $this->compte = $compte;
+    
+        return $this;
+    }
+
+    /**
+     * Get compte
+     *
+     * @return \Banko\Bundle\CompteBundle\Entity\Compte 
+     */
+    public function getCompte()
+    {
+        return $this->compte;
     }
 }
