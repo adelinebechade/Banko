@@ -169,4 +169,9 @@ class Compte
         }
         $this->mouvements = $mouvements;
     }
+
+    public function __toString()
+    {
+        return $this->getNom();
+    }
 }
