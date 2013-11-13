@@ -10,8 +10,7 @@
             <button type="submit" class="btn btn-link"><i class="icon-ok"></i></button>
         </div>
         <div class="mouvements" data-prototype="
-                <table id=&quot;new_mouvements&quot; name=&quot;new_mouvements&quot; class=&quot;table table-condensed&quot;>
-                    <thead>
+                <table id=&quot;new_mouvements&quot; name=&quot;new_mouvements&quot; class=&quot;table table-bordered table-condensed&quot;>
                     <tr>
                         <td>{{ form_widget(form.mouvements.vars.prototype.traite) | e }}</td>
                         <td>{{ form_widget(form.mouvements.vars.prototype.libelle) | e }}</td>
@@ -54,13 +53,13 @@
     function addMvtForm(collectionHolder, $newLinkLi) {
         // Récupère l'élément ayant l'attribut data-prototype comme expliqué plus tôt
         var prototype = collectionHolder.attr('data-prototype');
-
+        var $idTableau = collectionHolder.children().length;
         // Remplace '__name__' dans le HTML du prototype par un nombre basé sur
         // la longueur de la collection courante
         var newForm = prototype.replace(/__name__/g, collectionHolder.children().length);
 
         // Affiche le formulaire dans la page dans un li, avant le lien "ajouter un mvt"
-        var $newFormLi = $('<p></p>').append(newForm);
+        var $newFormLi = $('<p id='+$idTableau+'></p>').append(newForm);
         $newLinkLi.before($newFormLi);
         
         // ajoute un lien de suppression au nouveau formulaire
@@ -69,12 +68,13 @@
 
     function addMvtFormDeleteLink($mvtFormLi, $idTableau) {
         var $removeFormA = $('<td><a href="#" class="btn btn-danger btn-link"><i class="icon-remove"></a></td>');
+        var $id = $idTableau - 1;
 
-        $("#new_mouvements tr").append($removeFormA);
-
+        $("#"+$id+" #new_mouvements tr").append($removeFormA);
+  
         if($('#new_mouvements tr').length > 1) {
-           $('#new_mouvements tr').each(function(){
-              $("#new_mouvements tr td:last").hide()
+           $('#new_mouvements tr').each(function(){ 
+              $("#"+$idTableau+" #new_mouvements tr td:last").hide();
            })
         }
         $removeFormA.on('click', function(e) {
