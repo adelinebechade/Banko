@@ -50,6 +50,9 @@ class CompteController extends Controller
           throw $this->createNotFoundException('Compte [id='.$id.'] inexistant.');
       }
 
+      //Appel du traitement de l'ajout des prelevements automatiques du mois en cours pour le compte à afficher
+      $this->get("MouvementService")->ajoutPrelevementAutomatique($compte);
+
       // On récupère la liste des mouvements par rapport au compte
       $liste_mouvements = $em->getRepository('BankoCompteBundle:Mouvement')->findByCompte($id);
       

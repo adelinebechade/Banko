@@ -13,4 +13,69 @@ use Doctrine\ORM\Query;
  */
 class MouvementRepository extends EntityRepository
 {
+   /**
+    * Retourne le mouvement s'il existe déjà pour ce compte
+    *
+    * @return array
+    * @access public
+    */
+    public function getMouvementAutomatiqueCompte($compte_id, $libelle, $date, $credit, $debit) 
+    {
+        $query = $this->_em->createQueryBuilder()
+    		->select("m")
+                ->from("BankoCompteBundle:Mouvement", "m")
+    		->where("m.compte = '".$compte_id."'")
+    		->andWhere("m.libelle = '".$libelle."'")
+    		->andWhere("m.date = '".$date."'")
+                ->andWhere("m.credit = '".$credit."'")
+    		->andWhere("m.debit = '".$debit."'");
+
+        return $query->getQuery()->getResult(Query::HYDRATE_ARRAY);
+    }
+
+   /**
+    * Retourne si oui ou non le mouvement existe déjà sur le mois en cours du compte
+    *
+    * @param integer $compte_id
+    * @param varchar $libelle
+    * @param datetime $date
+    * @param varchar $credit
+    * @param varchar $debit
+    * @param varchar $mois
+    * @param boolean $annee_suivante
+    * @return boolean
+    * @access public
+    */
+    public function getMouvementCompte($compte_id, $libelle, $numero_jour, $credit, $debit, $mois, $annee_suivante) 
+    {
+    	
+    	if($mois == date('m'))
+    	{
+    		$date = $numero_jour.'/'.date('m').'/'.date('Y');
+    	}
+		
+		//Si on veut afficher les prochains prelevements automatiques du mois suivant car on est à - de 9 jours du nouveau mois
+    	if($mois == date('m')+1)
+    	{
+    		$date = $numero_jour.'/'.(date('m')+1).'/'.date('Y');
+    	}
+        	
+        //Si on veut afficher les prochains prelevements automatiques du mois suivant spécifique janvier de l'année suivante car on est à - de 9 jours du nouveau mois
+    	if($mois == "01" && $annee_suivante == true)
+    	{
+    		$date = $numero_jour.'/01/'.(date('Y')+1);
+    	}
+
+    	//Si on veut afficher les prochains prelevements automatiques du mois en coute spécifique janvier car on est à - de 9 jours du nouveau mois
+    	if($mois == "01" && $annee_suivante == false)
+    	{
+    		$date = $numero_jour.'/01/'.(date('Y'));
+    	}
+
+    	$mouvement_automatique = $this->_em->getRepository('BankoCompteBundle:Mouvement')->getMouvementAutomatiqueCompte($compte_id, $libelle, $date, $credit, $debit);
+
+    	if(count($mouvement_automatique) > 0)
+            return true;
+        return false;
+    }
 }
