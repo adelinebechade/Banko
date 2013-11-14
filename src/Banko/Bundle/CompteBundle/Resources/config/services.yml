@@ -3,3 +3,21 @@ services:
         class: Banko\Bundle\CompteBundle\Services\MouvementService
         arguments:    
             entityManager: "@doctrine.orm.entity_manager"
+
+    banko.compte.admin.compte:
+       class: Banko\Bundle\CompteBundle\Admin\CompteAdmin
+       tags:
+           - { name: sonata.admin, manager_type: orm, group: Compte, label: Comptes }
+       arguments: [null, Banko\Bundle\CompteBundle\Entity\Compte, BankoCompteBundle:CompteAdmin]
+
+    banko.compte.admin.mouvement:
+        class: Banko\Bundle\CompteBundle\Admin\MouvementAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: Compte, label: Mouvements }
+        arguments: [null, Banko\Bundle\CompteBundle\Entity\Mouvement, BankoCompteBundle:MouvementAdmin]
+
+    banko.compte.admin.mouvementAutomatique:
+        class: Banko\Bundle\CompteBundle\Admin\MouvementAutomatiqueAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: Compte, label: Mouvements Automatique }
+        arguments: [null, Banko\Bundle\CompteBundle\Entity\MouvementAutomatique, BankoCompteBundle:MouvementAutomatiqueAdmin]

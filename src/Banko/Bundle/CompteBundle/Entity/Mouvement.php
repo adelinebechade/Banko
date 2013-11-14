@@ -31,7 +31,7 @@ class Mouvement
     /**
      * @var boolean
      *
-     * @ORM\Column(name="traite", type="boolean")
+     * @ORM\Column(name="traite", type="boolean", nullable=true)
      */
     private $traite;
 
