@@ -19,8 +19,8 @@
     {% for compte in liste_comptes %}
       <tr>
         <td><a href="{{ path('banko_voir', {'id': compte.id}) }}">{{ compte.nom }}</a></td>
-        <td><a href="{{ path('banko_voir', {'id': compte.id}) }}">{{ compte.soldeInitial }}</a></td>
-        <td><a href="{{ path('banko_voir', {'id': compte.id}) }}">{{ compte.soldeInitial }}</a></td>
+        <td><a href="{{ path('banko_voir', {'id': compte.id}) }}">{{ solde_courant[compte.id] }}</a></td>
+        <td><a href="{{ path('banko_voir', {'id': compte.id}) }}">{{ solde_previsionnel[compte.id] }}</a></td>
       </tr>
     {% else %}
       <tr>Pas (encore !) de compte</tr>

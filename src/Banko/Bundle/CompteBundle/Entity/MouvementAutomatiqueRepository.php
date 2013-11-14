@@ -3,6 +3,7 @@
 namespace Banko\Bundle\CompteBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Query;
 
 /**
  * MouvementAutomatiqueRepository
@@ -12,4 +13,20 @@ use Doctrine\ORM\EntityRepository;
  */
 class MouvementAutomatiqueRepository extends EntityRepository
 {
+   /**
+    * Retourne les mouvements automatiques d'un compte
+    *
+    * @return array
+    * @access public
+    */
+    public function getMouvementAutomatiqueActifCompte($compte_id) 
+    {
+    	$qb = $this->_em->createQueryBuilder()
+                ->select("ma")
+    		->from("BankoCompteBundle:MouvementAutomatique", "ma")
+    		->where("ma.compte = '".$compte_id."'")
+                ->andWhere("ma.actif = 1");
+
+        return $qb->getQuery()->getResult(Query::HYDRATE_ARRAY);
+    }  
 }
