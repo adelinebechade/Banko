@@ -18,10 +18,21 @@ class CompteController extends Controller
         
         // Ici, on récupérera la liste des comptes, puis on la passera au template
         $liste_comptes = $em->getRepository('BankoCompteBundle:Compte')->findAll();
+        
+        //Ici, on récupère les soldes courant et prévisionnel de chaque compte
+        foreach ($liste_comptes as $compte)
+        {
+                $compte_courant = $em->getRepository('BankoCompteBundle:Compte')->getMontantCompteCourant($compte->getId());
+                $solde_courant[$compte->getId()] = $compte->getSoldeInitial() + $compte_courant[0]['totalCreditTraite'] - $compte_courant[0]['totalDebitTraite'];
 
+                $compte_previsionnel = $em->getRepository('BankoCompteBundle:Compte')->getMontantComptePrevisionnel($compte->getId());
+                $solde_previsionnel[$compte->getId()] = $compte->getSoldeInitial() + $compte_previsionnel[0]['totalCredit'] - $compte_previsionnel[0]['totalDebit'];
+        }
         // Mais pour l'instant, on ne fait qu'appeler le template
         return $this->render('BankoCompteBundle:Compte:index.html.twig', array(
-          'liste_comptes' => $liste_comptes
+          'liste_comptes' => $liste_comptes,
+          'solde_courant' => $solde_courant,
+          'solde_previsionnel' => $solde_previsionnel
         ));
     }
     
@@ -43,11 +54,11 @@ class CompteController extends Controller
       $liste_mouvements = $em->getRepository('BankoCompteBundle:Mouvement')->findByCompte($id);
       
       //On récupère le solde courant (initial + totalCreditTraite - totalDebitTraite)
-      $compte_courant = $em->getRepository('BankoCompteBundle:Mouvement')->getMontantCompteCourant($id);
+      $compte_courant = $em->getRepository('BankoCompteBundle:Compte')->getMontantCompteCourant($id);
       $solde_courant = $compte->getSoldeInitial() + $compte_courant[0]['totalCreditTraite'] - $compte_courant[0]['totalDebitTraite'];
       
       //On récupère le solde courant (initial + totalCredit - totalDebit)
-      $compte_previsionnel = $em->getRepository('BankoCompteBundle:Mouvement')->getMontantComptePrevisionnel($id);
+      $compte_previsionnel = $em->getRepository('BankoCompteBundle:Compte')->getMontantComptePrevisionnel($id);
       $solde_previsionnel = $compte->getSoldeInitial() + $compte_previsionnel[0]['totalCredit'] - $compte_previsionnel[0]['totalDebit'] ;
 
       // Puis modifiez la ligne du render comme ceci, pour prendre en compte l'article :
