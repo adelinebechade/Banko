@@ -3,7 +3,7 @@
 {% block title %}
   Accueil - {{ parent() }}
 {% endblock %}
- 
+
 {% block banko_body %}
  
   <h2><a href="{{ path('banko_home') }}">Liste des comptes</a></li></h2>
@@ -18,13 +18,13 @@
     </thead>
     {% for compte in liste_comptes %}
       <tr>
-        <td><a href="{{ path('banko_voir', {'id': compte.id}) }}">{{ compte.nom }}</a></td>
-        <td><a href="{{ path('banko_voir', {'id': compte.id}) }}">{{ solde_courant[compte.id] }}</a></td>
-        <td><a href="{{ path('banko_voir', {'id': compte.id}) }}">{{ solde_previsionnel[compte.id] }}</a></td>
+        <td><a href="{{ path('banko_voir', {'id': compte.id, 'page': 1}) }}">{{ compte.nom }}</a></td>
+        <td><a href="{{ path('banko_voir', {'id': compte.id, 'page': 1}) }}">{{ solde_courant[compte.id] }}</a></td>
+        <td><a href="{{ path('banko_voir', {'id': compte.id, 'page': 1}) }}">{{ solde_previsionnel[compte.id] }}</a></td>
       </tr>
     {% else %}
       <tr>Pas (encore !) de compte</tr>
     {% endfor %}
   </table>
- 
+
 {% endblock %}
