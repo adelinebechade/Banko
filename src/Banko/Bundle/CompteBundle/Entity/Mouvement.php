@@ -43,9 +43,9 @@ class Mouvement
     protected $libelle;
 
     /**
-     * @var string
+     * @var date
      *
-     * @ORM\Column(name="date", type="string", nullable=true)
+     * @ORM\Column(name="date", type="date", nullable=true)
      */
     private $date;
 

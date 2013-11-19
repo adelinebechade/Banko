@@ -71,11 +71,11 @@ class MouvementService
                         //Si on est au mois de décembre on prend l'année suivante et le mois de janvier pour la date du prélevement auto
                         if(date('m') == 12)
                         {
-                                $mouvement->setDate($mvt_auto['numeroJour'].'/'.('01').'/'.(date('Y')+1));
+                                $mouvement->setDate(new \Datetime(date('Y')+1).'-'.('01').$mvt_auto['numeroJour']);
                         }
                         else 
                         {
-                                $mouvement->setDate($mvt_auto['numeroJour'].'/'.(date('m')+1).date('Y'));
+                                $mouvement->setDate(new DateTime(date('Y').'-'.(date('m')+1).'-'.$mvt_auto['numeroJour']));
                         }
                         $mouvement->setCredit($mvt_auto['credit']);
                         $mouvement->setDebit($mvt_auto['debit']);
@@ -91,7 +91,7 @@ class MouvementService
                         $mouvement->setCompte($compte);
                         $mouvement->setTraite(0);
                         $mouvement->setLibelle($mvt_auto['libelle']);
-                        $mouvement->setDate($mvt_auto['numeroJour'].'/'.date('m').'/'.date('Y'));
+                        $mouvement->setDate(new \DateTime(date('Y').'-'.date('m').'-'.$mvt_auto['numeroJour']));
                         $mouvement->setCredit($mvt_auto['credit']);
                         $mouvement->setDebit($mvt_auto['debit']);
 

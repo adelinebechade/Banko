@@ -38,7 +38,8 @@
         "doctrine/doctrine-fixtures-bundle": "dev-master",
         "doctrine/data-fixtures": "@dev",
         "sonata-project/admin-bundle": "dev-master",
-        "sonata-project/doctrine-orm-admin-bundle": "dev-master"
+        "sonata-project/doctrine-orm-admin-bundle": "dev-master",
+         "lordbaine/fusion-charts-bundle": "dev-master"
     },
     "scripts": {
         "post-install-cmd": [

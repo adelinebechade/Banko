@@ -107,7 +107,7 @@
       <tr>
         <td><a href="#" id="traite{{ mouvement.id }}">{% if mouvement.traite == 1 %}Oui{% else %}Non{% endif %} </a></td>
         <td><a href="#" id="libelle{{ mouvement.id }}">{{ mouvement.libelle }}</a></td>
-        <td><a href="#" id="date{{ mouvement.id }}">{{ mouvement.date }}</a></td>
+        <td><a href="#" id="date{{ mouvement.id }}">{{ mouvement.date|date("d/m/Y") }}</a></td>
         <td><a href="#" id="credit{{ mouvement.id }}">{{ mouvement.credit }}</a></td>
         <td><a href="#" id="debit{{ mouvement.id }}">{{ mouvement.debit }}</a></td>
         <td><a href="{{ path('mouvement_delete', { 'id': mouvement.id }) }}"><i class="icon-remove"></i></a></td>
@@ -136,10 +136,23 @@
             <td style="width: 148px;">{{ solde_previsionnel }}</td>
         </tr>
     </table>
-  <p>
-    <a href="{{ path('banko_home') }}" class="btn">
-      <i class="icon-chevron-left"></i>Retour à la liste
-    </a>
-  </p>
+
+    <div class="pagination">
+      
+      <ul>
+        {# On utilise la fonction range(a, b) qui crée un tableau de valeurs entre a et b #}
+        {% for p in range(1, nombrePage) %}
+          <li{% if p == page %} class="active"{% endif %}>
+            <a href="{{ path('banko_voir', {'id': compte.id, 'page': p}) }}">{{ p }}</a>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+
+    <p>
+      <a href="{{ path('banko_home') }}" class="btn">
+        <i class="icon-chevron-left"></i>Retour à la liste
+      </a>
+    </p>
  
 {% endblock %}

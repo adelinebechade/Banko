@@ -37,10 +37,10 @@ class CompteController extends Controller
     }
     
     /**
-     * @Route("/compte/voir/{id}", name="banko_voir", requirements={"id" = "\d+"})
+     * @Route("/compte/voir/{id}/{page}", name="banko_voir", requirements={"id" = "\d+"})
      * @Template()
      */
-    public function voirAction($id)
+    public function voirAction($id, $page)
     {
       $em = $this->getDoctrine()->getManager();
       $compte = $em->getRepository('BankoCompteBundle:Compte')->find($id);
@@ -54,8 +54,9 @@ class CompteController extends Controller
       $this->get("MouvementService")->ajoutPrelevementAutomatique($compte);
 
       // On récupère la liste des mouvements par rapport au compte
-      $liste_mouvements = $em->getRepository('BankoCompteBundle:Mouvement')->findByCompte($id);
-      
+      //$liste_mouvements = $em->getRepository('BankoCompteBundle:Mouvement')->findByCompte($id);
+      $liste_mouvements = $em->getRepository('BankoCompteBundle:Mouvement')->getMouvementsCompte($id, 20, $page);
+
       //On récupère le solde courant (initial + totalCreditTraite - totalDebitTraite)
       $compte_courant = $em->getRepository('BankoCompteBundle:Compte')->getMontantCompteCourant($id);
       $solde_courant = $compte->getSoldeInitial() + $compte_courant[0]['totalCreditTraite'] - $compte_courant[0]['totalDebitTraite'];
@@ -70,6 +71,8 @@ class CompteController extends Controller
         'solde_courant' => $solde_courant,
         'solde_previsionnel' => $solde_previsionnel,
         'liste_mouvements' => $liste_mouvements,
+        'page'        => $page,
+        'nombrePage' => ceil(count($liste_mouvements)/20),
       ));
     }
 }

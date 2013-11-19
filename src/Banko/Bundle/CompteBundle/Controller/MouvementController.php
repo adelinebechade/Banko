@@ -54,7 +54,6 @@ class MouvementController extends Controller
             $form->bind($request);
 
             if ($form->isValid()) {
-                                var_dump('coucou');exit;
                 $em = $this->getDoctrine()->getManager();
                 $compte = $em->getRepository('BankoCompteBundle:Compte')->find($compte_id);
                 $compte->getMouvements()->addMouvement($entity);
@@ -101,8 +100,9 @@ class MouvementController extends Controller
                         $mouvement->setTraite(0);
                     else
                         $mouvement->setTraite($mvt['traite']);
+
                     $mouvement->setLibelle($mvt['libelle']);
-                    $mouvement->setDate($mvt['date']);
+                    $mouvement->setDate(\DateTime::createFromFormat('d/m/Y', $mvt['date']));
                     $mouvement->setCredit($mvt['credit']);
                     $mouvement->setDebit($mvt['debit']);
                     $mouvement->setCompte($compte);

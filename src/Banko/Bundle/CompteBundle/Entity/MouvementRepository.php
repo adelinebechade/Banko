@@ -4,6 +4,7 @@ namespace Banko\Bundle\CompteBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 
 /**
  * MouvementRepository
@@ -13,6 +14,38 @@ use Doctrine\ORM\Query;
  */
 class MouvementRepository extends EntityRepository
 {
+   /**
+    * Retourne les mouvements d'un compte trié par date
+    *
+    * @return array
+    * @access public
+    */
+    public function getMouvementsCompte($compte_id, $nombreParPage, $page) 
+    {
+        // On déplace la vérification du numéro de page dans cette méthode
+        if ($page < 1) {
+          throw new \InvalidArgumentException('L\'argument $page ne peut être inférieur à 1 (valeur : "'.$page.'").');
+        }
+
+        $query = $this->_em->createQueryBuilder()
+    		->select("m")
+                ->from("BankoCompteBundle:Mouvement", "m")
+    		->where("m.compte = '".$compte_id."'")
+                ->orderBy("m.date", "DESC")
+                ->getQuery();
+
+        // On définit l'article à partir duquel commencer la liste
+        $query->setFirstResult(($page-1) * $nombreParPage)
+              // Ainsi que le nombre d'articles à afficher
+              ->setMaxResults($nombreParPage);
+
+        // Enfin, on retourne l'objet Paginator correspondant à la requête construite
+        // (n'oubliez pas le use correspondant en début de fichier)
+        return new Paginator($query);
+
+        //return $query->getQuery()->getResult(Query::HYDRATE_ARRAY);
+    }
+
    /**
     * Retourne le mouvement s'il existe déjà pour ce compte
     *
@@ -51,25 +84,25 @@ class MouvementRepository extends EntityRepository
     	
     	if($mois == date('m'))
     	{
-    		$date = $numero_jour.'/'.date('m').'/'.date('Y');
+    		$date = date('Y').'-'.date('m').'-'.$numero_jour;
     	}
 		
-		//Si on veut afficher les prochains prelevements automatiques du mois suivant car on est à - de 9 jours du nouveau mois
+        //Si on veut afficher les prochains prelevements automatiques du mois suivant car on est à - de 9 jours du nouveau mois
     	if($mois == date('m')+1)
     	{
-    		$date = $numero_jour.'/'.(date('m')+1).'/'.date('Y');
+    		$date = date('Y').'-'.(date('m')+1).'-'.$numero_jour;
     	}
         	
         //Si on veut afficher les prochains prelevements automatiques du mois suivant spécifique janvier de l'année suivante car on est à - de 9 jours du nouveau mois
     	if($mois == "01" && $annee_suivante == true)
     	{
-    		$date = $numero_jour.'/01/'.(date('Y')+1);
+    		$date = (date('Y')+1).'-01-'.$numero_jour;
     	}
 
     	//Si on veut afficher les prochains prelevements automatiques du mois en coute spécifique janvier car on est à - de 9 jours du nouveau mois
     	if($mois == "01" && $annee_suivante == false)
     	{
-    		$date = $numero_jour.'/01/'.(date('Y'));
+    		$date = (date('Y').'-01-'.$numero_jour);
     	}
 
     	$mouvement_automatique = $this->_em->getRepository('BankoCompteBundle:Mouvement')->getMouvementAutomatiqueCompte($compte_id, $libelle, $date, $credit, $debit);
