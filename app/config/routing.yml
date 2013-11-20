@@ -11,3 +11,8 @@ _sonata_admin:
     resource: .
     type: sonata_admin
     prefix: /admin
+    
+_demo:
+        resource: "@SaadTaziGChartBundle/Resources/config/routing.yml"
+        type:     yaml
+        prefix:   /gchart

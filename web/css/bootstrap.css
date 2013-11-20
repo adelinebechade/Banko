@@ -89,11 +89,11 @@ sub {
 }
 img {
   max-width: 100%;
-  width: auto \9;
-  height: auto;
   vertical-align: middle;
   border: 0;
   -ms-interpolation-mode: bicubic;
+  width: 35px;
+  height: 35px;
 }
 #map_canvas img,
 .google-maps img {
@@ -5167,7 +5167,7 @@ a.badge:focus {
   margin-bottom: 0;
 }
 .hero-unit {
-  padding: 60px;
+  padding: 1px;
   margin-bottom: 30px;
   font-size: 18px;
   font-weight: 200;
@@ -5180,10 +5180,11 @@ a.badge:focus {
 }
 .hero-unit h1 {
   margin-bottom: 0;
-  font-size: 60px;
+  font-size: 50px;
   line-height: 1;
   color: inherit;
   letter-spacing: -1px;
+  text-align: center;
 }
 .hero-unit li {
   line-height: 30px;
