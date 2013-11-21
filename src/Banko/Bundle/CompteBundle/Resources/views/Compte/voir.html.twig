@@ -74,7 +74,9 @@
                       type: "POST",
                       url: '{{ path('mouvement_update2' , { 'id': mouvement.id }) }}',
                       data: { date: date },
-                  });     
+                      cache: false,
+                      success: function(date) {document.location.reload(true);}
+                  });
                 }   
               });
               

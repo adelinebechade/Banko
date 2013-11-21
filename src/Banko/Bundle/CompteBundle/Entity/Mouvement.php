@@ -52,14 +52,14 @@ class Mouvement
     /**
      * @var string
      *
-     * @ORM\Column(name="credit", type="string", length=255)
+     * @ORM\Column(name="credit", type="string", length=255, nullable=true, options={"default" = 0})
      */
     private $credit;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="debit", type="string", length=255)
+     * @ORM\Column(name="debit", type="string", length=255, nullable=true, options={"default" = 0})
      */
     private $debit;
 

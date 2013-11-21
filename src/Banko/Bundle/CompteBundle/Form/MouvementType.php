@@ -14,8 +14,8 @@ class MouvementType extends AbstractType
             ->add('traite', 'checkbox', array('required' => false, 'data' => true))
             ->add('libelle', 'text', array('attr' => array('placeholder' => 'Libellé')))
             ->add('date', 'text', array('data' => date("d/m/Y"), 'attr' => array('class' => 'form_date')))
-            ->add('credit', 'text', array('attr' => array('placeholder' => 'Crédit', 'onkeyup' => 'noVirgule(this);')))
-            ->add('debit', 'text', array('attr' => array('placeholder' => 'Débit', 'onkeyup' => 'noVirgule(this);')))
+            ->add('credit', 'text', array('data' => '0', 'required' => false, 'attr' => array('onkeyup' => 'noVirgule(this);')))
+            ->add('debit', 'text', array('data' => '0', 'required' => false, 'attr' => array('onkeyup' => 'noVirgule(this);')))
         ;
     }
 

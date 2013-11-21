@@ -269,7 +269,7 @@ class MouvementController extends Controller
             $entity->setLibelle($request->get('libelle'));
         
         if ($request->get('date') != null)
-            $entity->setDate($request->get('date'));
+            $entity->setDate(\DateTime::createFromFormat('d/m/Y', $request->get('date')));
 
         if ($request->get('credit') != null)
             $entity->setCredit($request->get('credit'));
