@@ -61,7 +61,7 @@ class MouvementController extends Controller
 
                 $this->get('session')->getFlashBag()->add('success', 'La création a été effectuée avec succès');
 
-                return $this->redirect($this->generateUrl('banko_voir', array('id' => $compte_id)));
+                return $this->redirect($this->generateUrl('banko_voir', array('id' => $compte_id, 'page' => 1)));
             }
         }
         return array(
@@ -110,7 +110,7 @@ class MouvementController extends Controller
                 }
                 $em->flush();
 
-                return $this->redirect($this->generateUrl('banko_voir', array('id' => $compte_id)));
+                return $this->redirect($this->generateUrl('banko_voir', array('id' => $compte_id, 'page' => 1)));
             }
             else
             {
@@ -227,7 +227,7 @@ class MouvementController extends Controller
         $em->remove($entity);
         $em->flush();
 
-        return $this->redirect($this->generateUrl('banko_voir', array('id' => $compte_id)));
+        return $this->redirect($this->generateUrl('banko_voir', array('id' => $compte_id, 'page' => 1)));
     }
 
     /**

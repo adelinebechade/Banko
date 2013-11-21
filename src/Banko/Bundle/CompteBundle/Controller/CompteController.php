@@ -26,10 +26,10 @@ class CompteController extends Controller
         foreach ($liste_comptes as $compte)
         {
                 $compte_courant = $em->getRepository('BankoCompteBundle:Compte')->getMontantCompteCourant($compte->getId());
-                $solde_courant[$compte->getId()] = $compte->getSoldeInitial() + $compte_courant[0]['totalCreditTraite'] - $compte_courant[0]['totalDebitTraite'];
+                $solde_courant[$compte->getId()] = round($compte->getSoldeInitial() + $compte_courant[0]['totalCreditTraite'] - $compte_courant[0]['totalDebitTraite'], 2);
 
                 $compte_previsionnel = $em->getRepository('BankoCompteBundle:Compte')->getMontantComptePrevisionnel($compte->getId());
-                $solde_previsionnel[$compte->getId()] = $compte->getSoldeInitial() + $compte_previsionnel[0]['totalCredit'] - $compte_previsionnel[0]['totalDebit'];
+                $solde_previsionnel[$compte->getId()] = round($compte->getSoldeInitial() + $compte_previsionnel[0]['totalCredit'] - $compte_previsionnel[0]['totalDebit'], 2);
         }
         // Mais pour l'instant, on ne fait qu'appeler le template
         return $this->render('BankoCompteBundle:Compte:index.html.twig', array(
@@ -62,11 +62,11 @@ class CompteController extends Controller
 
       //On récupère le solde courant (initial + totalCreditTraite - totalDebitTraite)
       $compte_courant = $em->getRepository('BankoCompteBundle:Compte')->getMontantCompteCourant($id);
-      $solde_courant = $compte->getSoldeInitial() + $compte_courant[0]['totalCreditTraite'] - $compte_courant[0]['totalDebitTraite'];
-      
+      $solde_courant = round($compte->getSoldeInitial() + $compte_courant[0]['totalCreditTraite'] - $compte_courant[0]['totalDebitTraite'], 2);
+
       //On récupère le solde courant (initial + totalCredit - totalDebit)
       $compte_previsionnel = $em->getRepository('BankoCompteBundle:Compte')->getMontantComptePrevisionnel($id);
-      $solde_previsionnel = $compte->getSoldeInitial() + $compte_previsionnel[0]['totalCredit'] - $compte_previsionnel[0]['totalDebit'] ;
+      $solde_previsionnel = round($compte->getSoldeInitial() + $compte_previsionnel[0]['totalCredit'] - $compte_previsionnel[0]['totalDebit'], 2) ;
 
       // Puis modifiez la ligne du render comme ceci, pour prendre en compte l'article :
       return $this->render('BankoCompteBundle:Compte:voir.html.twig', array(

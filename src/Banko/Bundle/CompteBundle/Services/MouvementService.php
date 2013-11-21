@@ -50,7 +50,7 @@ class MouvementService
                 $mouvement = new Mouvement();
 
                 //Si on est à moins de 10 jours du mois suivant, on ajoute les prochains prelevements automatiques
-                if(date('t',mktime(0, 0, 0, date('m'), 1, date('Y'))) - date('d') <= 9)
+                if(date('t',mktime(0, 0, 0, date('m'), 1, date('Y'))) - date('d') <= 3)
                 {
                     //Si on est au mois de décembre on prend le mois de janvier sinon m+1
                     if(date('m') == 12)
@@ -75,7 +75,7 @@ class MouvementService
                         }
                         else 
                         {
-                                $mouvement->setDate(new DateTime(date('Y').'-'.(date('m')+1).'-'.$mvt_auto['numeroJour']));
+                                $mouvement->setDate(new \DateTime(date('Y').'-'.(date('m')+1).'-'.$mvt_auto['numeroJour']));
                         }
                         $mouvement->setCredit($mvt_auto['credit']);
                         $mouvement->setDebit($mvt_auto['debit']);

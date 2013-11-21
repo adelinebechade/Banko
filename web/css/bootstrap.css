@@ -1690,7 +1690,7 @@ table {
   border-spacing: 0;
 }
 .table {
-  width: 100%;
+  width: 800px;
   margin-bottom: 20px;
 }
 .table th,
@@ -5179,7 +5179,7 @@ a.badge:focus {
   border-radius: 6px;
 }
 .hero-unit h1 {
-  margin-bottom: 0;
+  margin-bottom: 1;
   font-size: 50px;
   line-height: 1;
   color: inherit;
@@ -5292,7 +5292,11 @@ a.badge:focus {
 }
 @media (min-width: 1200px) {
   .row {
-    margin-left: -30px;
+    margin-left: 140px;
+    *zoom: 1;
+  }
+  .row #resume {
+    margin-left: 130px;
     *zoom: 1;
   }
   .row:before,

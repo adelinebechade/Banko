@@ -5,28 +5,30 @@
 {% endblock %}
 
 {% block banko_body %}
- 
-  <h2>Liste des comptes</h2>
- 
-  <table style="width: 500px;" class="table table-hover table-bordered table-condensed">
-    <thead>
-        <tr >
-            <th style="text-align: center;">Nom</th>
-            <th style="text-align: center;">Solde Courant</th>
-            <th style="text-align: center;">Solde Prévisionnel</th>
-        </tr>
-    </thead>
-    {% for compte in liste_comptes %}
-      <tr>
-        <td style="width: 100px;"><a href="{{ path('banko_voir', {'id': compte.id, 'page': 1}) }}">{{ compte.nom }}</a></td>
-        <td style="width: 200px;text-align: center;"><a href="{{ path('banko_voir', {'id': compte.id, 'page': 1}) }}">{{ solde_courant[compte.id] }}</a></td>
-        <td style="width: 200px;text-align: center;"><a href="{{ path('banko_voir', {'id': compte.id, 'page': 1}) }}">{{ solde_previsionnel[compte.id] }}</a></td>
-      </tr>
-    {% else %}
-      <tr>Pas (encore !) de compte</tr>
-    {% endfor %}
-  </table>
-  <table align="center">
-    {{ render(controller('BankoCompteBundle:Compte:stats')) }}
-  </table>
+    <div id="resume">
+      <h2>Liste des comptes</h2>
+
+        <table style="width: 600px;" class="table table-hover table-bordered table-condensed">
+          <thead>
+              <tr >
+                  <th style="text-align: center;">Nom</th>
+                  <th style="text-align: center;">Solde Courant</th>
+                  <th style="text-align: center;">Solde Prévisionnel</th>
+              </tr>
+          </thead>
+          {% for compte in liste_comptes %}
+            <tr style="cursor:pointer;" onclick="document.location='{{ path('banko_voir', {'id': compte.id, 'page': 1}) }}'" title="Visualiser">
+              <td style="width: 150px;">{{ compte.nom }}</td>
+              <td style="width: 225px;text-align: center;">{{ solde_courant[compte.id] }} €</td>
+              <td style="width: 225px;text-align: center;">{{ solde_previsionnel[compte.id] }} €</td>
+            </tr>
+          {% else %}
+            <tr>Pas (encore !) de compte</tr>
+          {% endfor %}
+        </table>
+        <br />
+        <table>
+          {{ render(controller('BankoCompteBundle:Compte:stats')) }}
+        </table>
+    </div>
 {% endblock %}

@@ -64,6 +64,13 @@
         
         // ajoute un lien de suppression au nouveau formulaire
         addMvtFormDeleteLink($newFormLi, collectionHolder.children().length);
+        
+        $(".form_date").datetimepicker({
+          format: "dd/mm/yyyy",
+          autoclose: 'true',
+          language: 'fr',
+          minView: '2'
+        }).attr('readonly', 'readonly');
     }
 
     function addMvtFormDeleteLink($mvtFormLi, $idTableau) {
