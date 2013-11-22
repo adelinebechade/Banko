@@ -40,13 +40,14 @@ class CompteController extends Controller
     }
     
     /**
-     * @Route("/compte/voir/{id}/{page}", name="banko_voir", requirements={"id" = "\d+"})
+     * @Route("/compte/voir/{id}/{page}", name="banko_voir")
      * @Template()
      */
     public function voirAction($id, $page)
     {
       $em = $this->getDoctrine()->getManager();
       $compte = $em->getRepository('BankoCompteBundle:Compte')->find($id);
+      $comptes = $em->getRepository('BankoCompteBundle:Compte')->findAll();
 
       if($compte == null)
       {
@@ -71,6 +72,7 @@ class CompteController extends Controller
       // Puis modifiez la ligne du render comme ceci, pour prendre en compte l'article :
       return $this->render('BankoCompteBundle:Compte:voir.html.twig', array(
         'compte' => $compte,
+        'comptes' => $comptes,
         'solde_courant' => $solde_courant,
         'solde_previsionnel' => $solde_previsionnel,
         'liste_mouvements' => $liste_mouvements,

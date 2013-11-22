@@ -7,11 +7,13 @@
 {% endblock %}
  
 {% block banko_body %}
+  <select style="width: 80px;margin-left: 718px; " name="compte" onChange="redirige(this.value)">
+        {% for c in comptes %}
+            <option {% if c.id == compte.id %} selected="selected" {% endif %}value={{ c.id }}>{{ c.nom }}</option>
+        {% endfor %}
+  </select>
 
-  <h2> 
-    Compte - {{ compte.nom }}
-  </h2> 
-
+  <h2> Compte - {{ compte.nom }}</h2> 
   <table style="width: 800px;" id="mouvements" class="table table-bordered table-condensed">
     <thead>
         <tr>
@@ -110,9 +112,8 @@
           });
           function noVirgule(obj)
           {
-            console.log(obj);
             obj.value = obj.value.replace(/,/g,'.');
-          } 
+          }
       </script>
       <tr>
         <td style="text-align: center;"><a href="#" id="traite{{ mouvement.id }}">{% if mouvement.traite == 1 %}Oui{% else %}Non{% endif %} </a></td>
@@ -164,5 +165,13 @@
         <i class="icon-chevron-left"></i>Retour à la liste
       </a>
     </p>
- 
+
+   <script type="text/javascript">
+      function redirige(value)
+      {
+        var url = '{{ path('banko_voir', {'id': 'compte.id' , 'page': 1}) }}';
+        url = url.replace("compte.id", value);
+        document.location = url;
+      }
+  </script>
 {% endblock %}
