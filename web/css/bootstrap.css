@@ -89,11 +89,11 @@ sub {
 }
 img {
   max-width: 100%;
-  width: auto \9;
-  height: auto;
   vertical-align: middle;
   border: 0;
   -ms-interpolation-mode: bicubic;
+  width: 35px;
+  height: 35px;
 }
 #map_canvas img,
 .google-maps img {
@@ -1690,7 +1690,7 @@ table {
   border-spacing: 0;
 }
 .table {
-  width: 100%;
+  width: 800px;
   margin-bottom: 20px;
 }
 .table th,
@@ -5167,7 +5167,7 @@ a.badge:focus {
   margin-bottom: 0;
 }
 .hero-unit {
-  padding: 60px;
+  padding: 1px;
   margin-bottom: 30px;
   font-size: 18px;
   font-weight: 200;
@@ -5179,11 +5179,12 @@ a.badge:focus {
   border-radius: 6px;
 }
 .hero-unit h1 {
-  margin-bottom: 0;
-  font-size: 60px;
+  margin-bottom: 1;
+  font-size: 50px;
   line-height: 1;
   color: inherit;
   letter-spacing: -1px;
+  text-align: center;
 }
 .hero-unit li {
   line-height: 30px;
@@ -5291,7 +5292,11 @@ a.badge:focus {
 }
 @media (min-width: 1200px) {
   .row {
-    margin-left: -30px;
+    margin-left: 140px;
+    *zoom: 1;
+  }
+  .row #resume {
+    margin-left: 130px;
     *zoom: 1;
   }
   .row:before,

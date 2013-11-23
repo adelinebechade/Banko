@@ -43,23 +43,23 @@ class Mouvement
     protected $libelle;
 
     /**
-     * @var string
+     * @var date
      *
-     * @ORM\Column(name="date", type="string", nullable=true)
+     * @ORM\Column(name="date", type="date", nullable=true)
      */
     private $date;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="credit", type="string", length=255)
+     * @ORM\Column(name="credit", type="string", length=255, nullable=true, options={"default" = 0})
      */
     private $credit;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="debit", type="string", length=255)
+     * @ORM\Column(name="debit", type="string", length=255, nullable=true, options={"default" = 0})
      */
     private $debit;
 

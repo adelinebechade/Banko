@@ -54,7 +54,6 @@ class MouvementController extends Controller
             $form->bind($request);
 
             if ($form->isValid()) {
-                                var_dump('coucou');exit;
                 $em = $this->getDoctrine()->getManager();
                 $compte = $em->getRepository('BankoCompteBundle:Compte')->find($compte_id);
                 $compte->getMouvements()->addMouvement($entity);
@@ -62,7 +61,7 @@ class MouvementController extends Controller
 
                 $this->get('session')->getFlashBag()->add('success', 'La création a été effectuée avec succès');
 
-                return $this->redirect($this->generateUrl('banko_voir', array('id' => $compte_id)));
+                return $this->redirect($this->generateUrl('banko_voir', array('id' => $compte_id, 'page' => 1)));
             }
         }
         return array(
@@ -101,8 +100,9 @@ class MouvementController extends Controller
                         $mouvement->setTraite(0);
                     else
                         $mouvement->setTraite($mvt['traite']);
+
                     $mouvement->setLibelle($mvt['libelle']);
-                    $mouvement->setDate($mvt['date']);
+                    $mouvement->setDate(\DateTime::createFromFormat('d/m/Y', $mvt['date']));
                     $mouvement->setCredit($mvt['credit']);
                     $mouvement->setDebit($mvt['debit']);
                     $mouvement->setCompte($compte);
@@ -110,7 +110,7 @@ class MouvementController extends Controller
                 }
                 $em->flush();
 
-                return $this->redirect($this->generateUrl('banko_voir', array('id' => $compte_id)));
+                return $this->redirect($this->generateUrl('banko_voir', array('id' => $compte_id, 'page' => 1)));
             }
             else
             {
@@ -227,7 +227,7 @@ class MouvementController extends Controller
         $em->remove($entity);
         $em->flush();
 
-        return $this->redirect($this->generateUrl('banko_voir', array('id' => $compte_id)));
+        return $this->redirect($this->generateUrl('banko_voir', array('id' => $compte_id, 'page' => 1)));
     }
 
     /**
@@ -269,7 +269,7 @@ class MouvementController extends Controller
             $entity->setLibelle($request->get('libelle'));
         
         if ($request->get('date') != null)
-            $entity->setDate($request->get('date'));
+            $entity->setDate(\DateTime::createFromFormat('d/m/Y', $request->get('date')));
 
         if ($request->get('credit') != null)
             $entity->setCredit($request->get('credit'));

@@ -3,28 +3,32 @@
 {% block title %}
   Accueil - {{ parent() }}
 {% endblock %}
- 
+
 {% block banko_body %}
- 
-  <h2><a href="{{ path('banko_home') }}">Liste des comptes</a></li></h2>
- 
-  <table class="table table-hover table-bordered table-condensed">
-    <thead>
-        <tr>
-            <th>Nom</th>
-            <th>Solde Courant</th>
-            <th>Solde Prévisionnel</th>
-        </tr>
-    </thead>
-    {% for compte in liste_comptes %}
-      <tr>
-        <td><a href="{{ path('banko_voir', {'id': compte.id}) }}">{{ compte.nom }}</a></td>
-        <td><a href="{{ path('banko_voir', {'id': compte.id}) }}">{{ solde_courant[compte.id] }}</a></td>
-        <td><a href="{{ path('banko_voir', {'id': compte.id}) }}">{{ solde_previsionnel[compte.id] }}</a></td>
-      </tr>
-    {% else %}
-      <tr>Pas (encore !) de compte</tr>
-    {% endfor %}
-  </table>
- 
+    <div id="resume">
+      <h2>Liste des comptes</h2>
+
+        <table style="width: 600px;" class="table table-hover table-bordered table-condensed">
+          <thead>
+              <tr >
+                  <th style="text-align: center;">Nom</th>
+                  <th style="text-align: center;">Solde Courant</th>
+                  <th style="text-align: center;">Solde Prévisionnel</th>
+              </tr>
+          </thead>
+          {% for compte in liste_comptes %}
+            <tr style="cursor:pointer;" onclick="document.location='{{ path('banko_voir', {'id': compte.id, 'page': 1}) }}'" title="Visualiser">
+              <td style="width: 150px;">{{ compte.nom }}</td>
+              <td style="width: 225px;text-align: center;">{{ solde_courant[compte.id] }} €</td>
+              <td style="width: 225px;text-align: center;">{{ solde_previsionnel[compte.id] }} €</td>
+            </tr>
+          {% else %}
+            <tr>Pas (encore !) de compte</tr>
+          {% endfor %}
+        </table>
+        <br />
+        <table>
+          {{ render(controller('BankoCompteBundle:Compte:stats')) }}
+        </table>
+    </div>
 {% endblock %}

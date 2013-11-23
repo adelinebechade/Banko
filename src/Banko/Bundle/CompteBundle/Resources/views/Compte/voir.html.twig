@@ -7,26 +7,30 @@
 {% endblock %}
  
 {% block banko_body %}
+  <select style="width: 80px;margin-left: 718px; " name="compte" onChange="redirige(this.value)">
+        {% for c in comptes %}
+            <option {% if c.id == compte.id %} selected="selected" {% endif %}value={{ c.id }}>{{ c.nom }}</option>
+        {% endfor %}
+  </select>
 
-  <h2> 
-    {{ compte.nom }}
-  </h2> 
-
-  <table id="mouvements" class="table table-bordered table-condensed">
+  <h2> Compte - {{ compte.nom }}</h2> 
+  <table style="width: 800px;" id="mouvements" class="table table-bordered table-condensed">
     <thead>
         <tr>
-            <th>TRAITE</th>
+            <th style="text-align: center;">TRAITE</th>
             <th>LIBELLE</th>
-            <th>DATE</th>
-            <th>CREDIT</th>
-            <th>DEBIT</th>
+            <th style="text-align: center;">DATE</th>
+            <th style="text-align: center;">CREDIT</th>
+            <th style="text-align: center;">DEBIT</th>
             <th></th>
         </tr>
     </thead>
     {% for mouvement in liste_mouvements %}
     
       <script type="text/javascript">
+          $.fn.datetimepicker.dates = 'fr';
           $.fn.editable.defaults.mode = 'inline';
+
           $(document).ready(function(data) {
               $('#mouvements #traite{{ mouvement.id }}').editable({
                 type: 'select',
@@ -62,16 +66,19 @@
                 type: 'date',
                 format: 'yyyy-mm-dd',
                 viewformat: 'dd/mm/yyyy',
-                datepicker: {
-                  weekStart: 1
-                },
+                datekpicker: {
+                    weekStart: 1,
+                    language: 'fr'
+               },
                 success: function() {
                   var date = $('.inputdate').val();
                   $.ajax({
                       type: "POST",
                       url: '{{ path('mouvement_update2' , { 'id': mouvement.id }) }}',
                       data: { date: date },
-                  });     
+                      cache: false,
+                      success: function(date) {document.location.reload(true);}
+                  });
                 }   
               });
               
@@ -88,7 +95,7 @@
                   });     
                 }   
               });
-              
+
               $('#mouvements #debit{{ mouvement.id }}').editable({
                 inputclass: 'input input-small inputdebit',
                 success: function() {
@@ -103,14 +110,18 @@
                 }   
               });
           });
+          function noVirgule(obj)
+          {
+            obj.value = obj.value.replace(/,/g,'.');
+          }
       </script>
       <tr>
-        <td><a href="#" id="traite{{ mouvement.id }}">{% if mouvement.traite == 1 %}Oui{% else %}Non{% endif %} </a></td>
+        <td style="text-align: center;"><a href="#" id="traite{{ mouvement.id }}">{% if mouvement.traite == 1 %}Oui{% else %}Non{% endif %} </a></td>
         <td><a href="#" id="libelle{{ mouvement.id }}">{{ mouvement.libelle }}</a></td>
-        <td><a href="#" id="date{{ mouvement.id }}">{{ mouvement.date }}</a></td>
-        <td><a href="#" id="credit{{ mouvement.id }}">{{ mouvement.credit }}</a></td>
-        <td><a href="#" id="debit{{ mouvement.id }}">{{ mouvement.debit }}</a></td>
-        <td><a href="{{ path('mouvement_delete', { 'id': mouvement.id }) }}"><i class="icon-remove"></i></a></td>
+        <td style="text-align: center;"><a href="#" id="date{{ mouvement.id }}">{{ mouvement.date|date("d/m/Y") }}</a></td>
+        <td style="text-align: center;"><a href="#" id="credit{{ mouvement.id }}">{{ mouvement.credit }}</a></td>
+        <td style="text-align: center;"><a href="#" id="debit{{ mouvement.id }}">{{ mouvement.debit }}</a></td>
+        <td style="text-align: center;"><a href="{{ path('mouvement_delete', { 'id': mouvement.id }) }}"><i class="icon-remove"></i></a></td>
       </tr>
     {% else %}
       <tr>Pas (encore !) de mouvement</tr>
@@ -124,22 +135,43 @@
             <td style="width: 160px;"></td>
             <td style="width: 160px;"></td>
             <td style="width: 160px;"></td>
-            <td style="width: 190px;">Solde Courant </td>
-            <td style="width: 148px;">{{ solde_courant }}</td>
+            <td style="width: 190px;"><b>Solde Courant </b></td>
+            <td style="width: 148px;"><b>{{ solde_courant }} €</b></td>
         </tr>
         <tr>
             <td style="width: 160px;"></td>
             <td style="width: 160px;"></td>
             <td style="width: 160px;"></td>
             <td style="width: 160px;"></td>
-            <td style="width: 190px;">Solde Prévisionnel </td>
-            <td style="width: 148px;">{{ solde_previsionnel }}</td>
+            <td style="width: 190px;"><b>Solde Prévisionnel </b></td>
+            <td style="width: 148px;"><b>{{ solde_previsionnel }} €</b></td>
         </tr>
     </table>
-  <p>
-    <a href="{{ path('banko_home') }}" class="btn">
-      <i class="icon-chevron-left"></i>Retour à la liste
-    </a>
-  </p>
- 
+
+    <div class="pagination">
+      
+      <ul>
+        {# On utilise la fonction range(a, b) qui crée un tableau de valeurs entre a et b #}
+        {% for p in range(1, nombrePage) %}
+          <li{% if p == page %} class="active"{% endif %}>
+            <a href="{{ path('banko_voir', {'id': compte.id, 'page': p}) }}">{{ p }}</a>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+
+    <p>
+      <a href="{{ path('banko_home') }}" class="btn">
+        <i class="icon-chevron-left"></i>Retour à la liste
+      </a>
+    </p>
+
+   <script type="text/javascript">
+      function redirige(value)
+      {
+        var url = '{{ path('banko_voir', {'id': 'compte.id' , 'page': 1}) }}';
+        url = url.replace("compte.id", value);
+        document.location = url;
+      }
+  </script>
 {% endblock %}

@@ -1,0 +1,12 @@
+{% extends "SaadTaziGChartBundle::layout.html.twig" %}
+
+{% block content %}
+<h4>Statistiques</h4>
+
+<div id="chart2">&nbsp;</div>
+<script>
+$(function() {
+{{ gchart_column_chart(dataTable2, 'chart2', 600, 400, '€') }}
+});
+</script>
+{% endblock %}
