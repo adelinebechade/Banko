@@ -59,7 +59,7 @@ class CompteController extends Controller
 
       // On récupère la liste des mouvements par rapport au compte
       //$liste_mouvements = $em->getRepository('BankoCompteBundle:Mouvement')->findByCompte($id);
-      $liste_mouvements = $em->getRepository('BankoCompteBundle:Mouvement')->getMouvementsCompte($id, 20, $page);
+      $liste_mouvements = $em->getRepository('BankoCompteBundle:Mouvement')->getMouvementsCompte($id, 15, $page);
 
       //On récupère le solde courant (initial + totalCreditTraite - totalDebitTraite)
       $compte_courant = $em->getRepository('BankoCompteBundle:Compte')->getMontantCompteCourant($id);
@@ -77,7 +77,7 @@ class CompteController extends Controller
         'solde_previsionnel' => $solde_previsionnel,
         'liste_mouvements' => $liste_mouvements,
         'page'        => $page,
-        'nombrePage' => ceil(count($liste_mouvements)/20),
+        'nombrePage' => ceil(count($liste_mouvements)/15),
       ));
     }
     
