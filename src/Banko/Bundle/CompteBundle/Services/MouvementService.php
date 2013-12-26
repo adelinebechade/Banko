@@ -71,7 +71,7 @@ class MouvementService
                         //Si on est au mois de décembre on prend l'année suivante et le mois de janvier pour la date du prélevement auto
                         if(date('m') == 12)
                         {
-                                $mouvement->setDate(new \Datetime(date('Y')+1).'-'.('01').$mvt_auto['numeroJour']);
+                                $mouvement->setDate(new \Datetime((date('Y')+1).'-'.('01').'-'.$mvt_auto['numeroJour']));
                         }
                         else 
                         {
