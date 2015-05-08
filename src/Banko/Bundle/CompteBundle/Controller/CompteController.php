@@ -20,8 +20,8 @@ class CompteController extends Controller
         $em = $this->getDoctrine()->getManager();
         
         // Ici, on récupérera la liste des comptes, puis on la passera au template
-        $liste_comptes = $em->getRepository('BankoCompteBundle:Compte')->findAll();
-        
+        $liste_comptes = $em->getRepository('BankoCompteBundle:Compte')->findBy(array(),array('ordre' => 'ASC'));
+
         //Ici, on récupère les soldes courant et prévisionnel de chaque compte
         foreach ($liste_comptes as $compte)
         {
@@ -90,7 +90,7 @@ class CompteController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         // Ici, on récupérera la liste des comptes, puis on la passera au template
-        $liste_comptes = $em->getRepository('BankoCompteBundle:Compte')->findAll();
+        $liste_comptes = $em->getRepository('BankoCompteBundle:Compte')->findBy(array(),array('ordre' => 'ASC'));
 
         /*
          * dataTable for Bar Chart for example (3 columns)
