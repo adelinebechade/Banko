@@ -1,0 +1,48 @@
+[submodule "vendor/KnpMenu"]
+	path = vendor/KnpMenu
+	url = https://github.com/KnpLabs/KnpMenu.git
+[submodule "vendor/bundles/Sensio/Bundle/GeneratorBundle"]
+	path = vendor/bundles/Sensio/Bundle/GeneratorBundle
+	url = git://github.com/sensio/SensioGeneratorBundle.git
+[submodule "vendor/bundles/Admingenerator/GeneratorBundle"]
+	path = vendor/bundles/Admingenerator/GeneratorBundle
+	url = git://github.com/symfony2admingenerator/AdmingeneratorGeneratorBundle.git
+[submodule "vendor/bundles/Knp/Bundle/MenuBundle"]
+	path = vendor/bundles/Knp/Bundle/MenuBundle
+	url = https://github.com/KnpLabs/KnpMenuBundle.git
+[submodule "vendor/twig-generator"]
+	path = vendor/twig-generator
+	url = http://github.com/cedriclombardot/TwigGenerator.git
+[submodule "vendor/twig-extensions"]
+	path = vendor/twig-extensions
+	url = git://github.com/fabpot/Twig-extensions.git
+[submodule "vendor/pagerfanta"]
+	path = vendor/pagerfanta
+	url = git://github.com/whiteoctober/Pagerfanta.git
+[submodule "vendor/bundles/WhiteOctober/PagerfantaBundle"]
+	path = vendor/bundles/WhiteOctober/PagerfantaBundle
+	url = git://github.com/whiteoctober/WhiteOctoberPagerfantaBundle.git
+[submodule "vendor/doctrine-common"]
+	path = vendor/doctrine-common
+	url = git://github.com/doctrine/common.git
+[submodule "vendor/doctrine-dbal"]
+	path = vendor/doctrine-dbal
+	url = git://github.com/doctrine/dbal.git
+[submodule "vendor/doctrine-fixtures"]
+	path = vendor/doctrine-fixtures
+	url = git://github.com/doctrine/data-fixtures.git
+[submodule "vendor/bundles/Doctrine/Bundle/FixturesBundle"]
+	path = vendor/bundles/Doctrine/Bundle/FixturesBundle
+	url = git://github.com/doctrine/DoctrineFixturesBundle.git
+[submodule "vendor/bundles/Doctrine/Bundle/DoctrineBundle"]
+	path = vendor/bundles/Doctrine/Bundle/DoctrineBundle
+	url = git://github.com/doctrine/DoctrineBundle.git
+[submodule "vendor/bundles/Symfony/Bundle/AsseticBundle"]
+	path = vendor/bundles/Symfony/Bundle/AsseticBundle
+	url = git://github.com/symfony/AsseticBundle.git
+[submodule "vendor/assetic"]
+	path = vendor/assetic
+	url = git://github.com/symfony/AsseticBundle.git
+[submodule "vendor/bundles/SaadTazi/GChartBundle"]
+	path = vendor/bundles/SaadTazi/GChartBundle
+	url = git://github.com/saadtazi/SaadTaziGChartBundle.git
