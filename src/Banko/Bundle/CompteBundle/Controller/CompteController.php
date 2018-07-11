@@ -47,7 +47,7 @@ class CompteController extends Controller
     {
       $em = $this->getDoctrine()->getManager();
       $compte = $em->getRepository('BankoCompteBundle:Compte')->find($id);
-      $comptes = $em->getRepository('BankoCompteBundle:Compte')->findAll();
+      $comptes = $em->getRepository('BankoCompteBundle:Compte')->findBy(array(),array('ordre' => 'ASC'));
 
       if($compte == null)
       {
